@@ -4,6 +4,7 @@ import { Permission } from '@/graphql/generated/output'
 
 import { Route } from '../types/core'
 
+import { PROCESS_PERMISSIONS } from './process-permissions.constants'
 import { ROUTES } from './routes.constant'
 
 export const SIDEBAR_ROUTES: Route[] = [
@@ -22,12 +23,7 @@ export const SIDEBAR_ROUTES: Route[] = [
 		label: 'Обробка',
 		href: ROUTES.PROCESS.path,
 		icon: Factory,
-		permissions: [
-			Permission.RequestReadAll,
-			Permission.RequestReadOwn,
-			Permission.RequestReadAll,
-			Permission.RequestReadOwn
-		]
+		permissions: PROCESS_PERMISSIONS
 	},
 	{
 		label: 'Пошук',
