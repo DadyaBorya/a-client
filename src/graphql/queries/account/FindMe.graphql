@@ -1,0 +1,14 @@
+query FindMe {
+	findMe {
+		id
+		username
+		displayName
+		permissions
+		isTotpEnabled
+		isSuperUser
+		isBlocked
+		createdAt
+		isTotpEnabled
+		updatedAt
+	}
+}

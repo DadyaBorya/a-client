@@ -1,0 +1,21 @@
+query FindAllUsers($data: ListUsersInput!) {
+	findAllUsers(data: $data) {
+		data {
+			id
+			username
+			displayName
+			permissions
+			isTotpEnabled
+			isSuperUser
+			isBlocked
+			createdAt
+			isTotpEnabled
+			updatedAt
+		}
+		total
+		pages
+		currentPage
+		hasNext
+		hasPrev
+	}
+}

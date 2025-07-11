@@ -1,0 +1,30 @@
+import { PropsWithChildren } from 'react'
+
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle
+} from '@/components/ui/common'
+import { Logo } from '@/components/ui/elements'
+
+interface AuthWrapperProps {
+	heading: string
+}
+
+export function AuthWrapper({
+	children,
+	heading
+}: PropsWithChildren<AuthWrapperProps>) {
+	return (
+		<div className='flex h-full items-center justify-center'>
+			<Card className='w-full max-w-[450px]'>
+				<CardHeader className='flex flex-row items-center justify-center gap-x-4'>
+					<Logo className='h-12 w-12' />
+					<CardTitle>{heading}</CardTitle>
+				</CardHeader>
+				<CardContent>{children}</CardContent>
+			</Card>
+		</div>
+	)
+}

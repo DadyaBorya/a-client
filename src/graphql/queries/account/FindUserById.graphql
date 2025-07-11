@@ -1,0 +1,14 @@
+query FindUserById($id: String!) {
+	findUserById(id: $id) {
+		id
+		username
+		displayName
+		permissions
+		isTotpEnabled
+		isSuperUser
+		isBlocked
+		createdAt
+		isTotpEnabled
+		updatedAt
+	}
+}
