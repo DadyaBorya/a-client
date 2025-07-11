@@ -146,6 +146,7 @@ export type Query = {
   findCurrentSession: SessionModel;
   findMe: UserModel;
   findSessions: Array<SessionModel>;
+  findSessionsById: Array<SessionModel>;
   findUserById: UserModel;
   generateTotpSecret: TotpModel;
 };
@@ -153,6 +154,11 @@ export type Query = {
 
 export type QueryFindAllUsersArgs = {
   data: ListUsersInput;
+};
+
+
+export type QueryFindSessionsByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -268,6 +274,13 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
+export type RemoveSessionMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type RemoveSessionMutation = { __typename?: 'Mutation', removeSession: boolean };
+
 export type EnableTotpMutationVariables = Exact<{
   data: EnableTotpInput;
 }>;
@@ -293,6 +306,23 @@ export type FindUserByIdQueryVariables = Exact<{
 
 
 export type FindUserByIdQuery = { __typename?: 'Query', findUserById: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } };
+
+export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindCurrentSessionQuery = { __typename?: 'Query', findCurrentSession: { __typename?: 'SessionModel', id: string, userId: string, createdAt: string, metadata: { __typename?: 'SessionMetadaModel', ip: string, location: { __typename?: 'LocationModel', city: string, country: string, latidute: number, longitude: number }, device: { __typename?: 'DeviceModel', os?: string | null, browser?: string | null, type?: string | null } } } };
+
+export type FindSessionsByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindSessionsByIdQuery = { __typename?: 'Query', findSessionsById: Array<{ __typename?: 'SessionModel', id: string, userId: string, createdAt: string, metadata: { __typename?: 'SessionMetadaModel', ip: string, location: { __typename?: 'LocationModel', city: string, country: string, latidute: number, longitude: number }, device: { __typename?: 'DeviceModel', os?: string | null, browser?: string | null, type?: string | null } } }> };
+
+export type FindSessionsByUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindSessionsByUsersQuery = { __typename?: 'Query', findSessions: Array<{ __typename?: 'SessionModel', id: string, userId: string, createdAt: string, metadata: { __typename?: 'SessionMetadaModel', ip: string, location: { __typename?: 'LocationModel', city: string, country: string, latidute: number, longitude: number }, device: { __typename?: 'DeviceModel', os?: string | null, browser?: string | null, type?: string | null } } }> };
 
 export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -515,6 +545,37 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const RemoveSessionDocument = gql`
+    mutation RemoveSession($id: String!) {
+  removeSession(id: $id)
+}
+    `;
+export type RemoveSessionMutationFn = Apollo.MutationFunction<RemoveSessionMutation, RemoveSessionMutationVariables>;
+
+/**
+ * __useRemoveSessionMutation__
+ *
+ * To run a mutation, you first call `useRemoveSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeSessionMutation, { data, loading, error }] = useRemoveSessionMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveSessionMutation(baseOptions?: Apollo.MutationHookOptions<RemoveSessionMutation, RemoveSessionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveSessionMutation, RemoveSessionMutationVariables>(RemoveSessionDocument, options);
+      }
+export type RemoveSessionMutationHookResult = ReturnType<typeof useRemoveSessionMutation>;
+export type RemoveSessionMutationResult = Apollo.MutationResult<RemoveSessionMutation>;
+export type RemoveSessionMutationOptions = Apollo.BaseMutationOptions<RemoveSessionMutation, RemoveSessionMutationVariables>;
 export const EnableTotpDocument = gql`
     mutation EnableTotp($data: EnableTotpInput!) {
   enableTotp(data: $data)
@@ -699,6 +760,172 @@ export type FindUserByIdQueryHookResult = ReturnType<typeof useFindUserByIdQuery
 export type FindUserByIdLazyQueryHookResult = ReturnType<typeof useFindUserByIdLazyQuery>;
 export type FindUserByIdSuspenseQueryHookResult = ReturnType<typeof useFindUserByIdSuspenseQuery>;
 export type FindUserByIdQueryResult = Apollo.QueryResult<FindUserByIdQuery, FindUserByIdQueryVariables>;
+export const FindCurrentSessionDocument = gql`
+    query FindCurrentSession {
+  findCurrentSession {
+    id
+    userId
+    createdAt
+    metadata {
+      location {
+        city
+        country
+        latidute
+        longitude
+      }
+      device {
+        os
+        browser
+        type
+      }
+      ip
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindCurrentSessionQuery__
+ *
+ * To run a query within a React component, call `useFindCurrentSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindCurrentSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindCurrentSessionQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindCurrentSessionQuery(baseOptions?: Apollo.QueryHookOptions<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>(FindCurrentSessionDocument, options);
+      }
+export function useFindCurrentSessionLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>(FindCurrentSessionDocument, options);
+        }
+export function useFindCurrentSessionSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>(FindCurrentSessionDocument, options);
+        }
+export type FindCurrentSessionQueryHookResult = ReturnType<typeof useFindCurrentSessionQuery>;
+export type FindCurrentSessionLazyQueryHookResult = ReturnType<typeof useFindCurrentSessionLazyQuery>;
+export type FindCurrentSessionSuspenseQueryHookResult = ReturnType<typeof useFindCurrentSessionSuspenseQuery>;
+export type FindCurrentSessionQueryResult = Apollo.QueryResult<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>;
+export const FindSessionsByIdDocument = gql`
+    query FindSessionsById($id: String!) {
+  findSessionsById(id: $id) {
+    id
+    userId
+    createdAt
+    metadata {
+      location {
+        city
+        country
+        latidute
+        longitude
+      }
+      device {
+        os
+        browser
+        type
+      }
+      ip
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindSessionsByIdQuery__
+ *
+ * To run a query within a React component, call `useFindSessionsByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindSessionsByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindSessionsByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindSessionsByIdQuery(baseOptions: Apollo.QueryHookOptions<FindSessionsByIdQuery, FindSessionsByIdQueryVariables> & ({ variables: FindSessionsByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindSessionsByIdQuery, FindSessionsByIdQueryVariables>(FindSessionsByIdDocument, options);
+      }
+export function useFindSessionsByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindSessionsByIdQuery, FindSessionsByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindSessionsByIdQuery, FindSessionsByIdQueryVariables>(FindSessionsByIdDocument, options);
+        }
+export function useFindSessionsByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindSessionsByIdQuery, FindSessionsByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindSessionsByIdQuery, FindSessionsByIdQueryVariables>(FindSessionsByIdDocument, options);
+        }
+export type FindSessionsByIdQueryHookResult = ReturnType<typeof useFindSessionsByIdQuery>;
+export type FindSessionsByIdLazyQueryHookResult = ReturnType<typeof useFindSessionsByIdLazyQuery>;
+export type FindSessionsByIdSuspenseQueryHookResult = ReturnType<typeof useFindSessionsByIdSuspenseQuery>;
+export type FindSessionsByIdQueryResult = Apollo.QueryResult<FindSessionsByIdQuery, FindSessionsByIdQueryVariables>;
+export const FindSessionsByUsersDocument = gql`
+    query FindSessionsByUsers {
+  findSessions {
+    id
+    userId
+    createdAt
+    metadata {
+      location {
+        city
+        country
+        latidute
+        longitude
+      }
+      device {
+        os
+        browser
+        type
+      }
+      ip
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindSessionsByUsersQuery__
+ *
+ * To run a query within a React component, call `useFindSessionsByUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindSessionsByUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindSessionsByUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindSessionsByUsersQuery(baseOptions?: Apollo.QueryHookOptions<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>(FindSessionsByUsersDocument, options);
+      }
+export function useFindSessionsByUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>(FindSessionsByUsersDocument, options);
+        }
+export function useFindSessionsByUsersSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>(FindSessionsByUsersDocument, options);
+        }
+export type FindSessionsByUsersQueryHookResult = ReturnType<typeof useFindSessionsByUsersQuery>;
+export type FindSessionsByUsersLazyQueryHookResult = ReturnType<typeof useFindSessionsByUsersLazyQuery>;
+export type FindSessionsByUsersSuspenseQueryHookResult = ReturnType<typeof useFindSessionsByUsersSuspenseQuery>;
+export type FindSessionsByUsersQueryResult = Apollo.QueryResult<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>;
 export const GenerateTotpSecretDocument = gql`
     query GenerateTotpSecret {
   generateTotpSecret {

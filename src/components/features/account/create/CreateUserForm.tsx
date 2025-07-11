@@ -33,7 +33,6 @@ export function CreateUserForm() {
 						control={form.control}
 						name='username'
 						label="Ім'я користувача"
-						placeholder='b.ohorodnii'
 						description='Може містити літери, цифри, крапки або дефіси'
 						disabled={isLoading}
 					/>
@@ -42,7 +41,6 @@ export function CreateUserForm() {
 						control={form.control}
 						name='password'
 						label='Пароль'
-						placeholder='********'
 						description='Пароль повинен містити щонайменше 8 символів'
 						disabled={isLoading}
 					/>
@@ -51,7 +49,6 @@ export function CreateUserForm() {
 						control={form.control}
 						name='displayName'
 						label="Ім'я для відображення"
-						placeholder='Огородній Борис Андрійович'
 						description="Ім'я для відображення не може бути порожнім"
 						disabled={isLoading}
 					/>

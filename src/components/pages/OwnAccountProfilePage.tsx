@@ -2,7 +2,7 @@
 
 import withAuth from '@/hooks/auth/withAuth'
 
-import { OwnUserProfile } from '../features/account/own-profile'
+import { OwnUserProfile } from '../features/account/profile'
 import { BorderWrapper } from '../ui/elements'
 
 function OwnAccountProfilePage() {

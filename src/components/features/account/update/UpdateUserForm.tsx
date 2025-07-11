@@ -38,7 +38,6 @@ export function UpdateUserForm() {
 						control={form.control}
 						name='username'
 						label="Ім'я користувача"
-						placeholder='b.ohorodnii'
 						description='Може містити літери, цифри, крапки або дефіси'
 						disabled={isLoading}
 					/>
@@ -47,7 +46,6 @@ export function UpdateUserForm() {
 						control={form.control}
 						name='displayName'
 						label="Ім'я для відображення"
-						placeholder='Огородній Борис Андрійович'
 						description="Ім'я для відображення не може бути порожнім"
 						disabled={isLoading}
 					/>

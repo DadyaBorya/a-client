@@ -14,16 +14,16 @@ import { useCurrentUser } from '../user'
 
 export function useLoginForm() {
 	const router = useRouter()
-	const { user, isLoading: isLoadingUser } = useCurrentUser()
+	const { user, isLoading: isLoadingUser, error, code } = useCurrentUser()
 	const [isPinRequired, setIsPinRequired] = useState(false)
 
 	useEffect(() => {
-		if (user && !user.isBlocked) {
+		if (user && !user.isBlocked && !error && !code) {
 			router.push(ROUTES.HOME.path)
 		}
-	}, [user, router])
+	}, [user, router, error])
 
-	const shouldShowLoader = isLoadingUser || !!user
+	const shouldShowLoader = isLoadingUser || (!error && !!user)
 
 	const form = useForm<TypeLoginSchema>({
 		resolver: zodResolver(loginSchema),

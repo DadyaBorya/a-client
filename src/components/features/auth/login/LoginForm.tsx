@@ -33,7 +33,6 @@ export function LoginForm() {
 								control={form.control}
 								name='username'
 								label="Ім'я користувача"
-								placeholder='b.ohorodnii'
 								description="Введіть унікальне ім'я користувача латиницею"
 								disabled={isLoading}
 							/>
@@ -42,7 +41,6 @@ export function LoginForm() {
 								control={form.control}
 								name='password'
 								label='Пароль'
-								placeholder='********'
 								description='Якщо ви забули пароль — зверніться до адміністратора.'
 								disabled={isLoading}
 							/>

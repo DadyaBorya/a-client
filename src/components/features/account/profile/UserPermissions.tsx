@@ -20,7 +20,7 @@ export function UserPermissions({
 	}
 
 	return (
-		<div>
+		<div className='border-b'>
 			<h3 className='text-muted-foreground text-sm font-medium'>
 				Дозволи
 			</h3>

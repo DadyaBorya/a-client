@@ -22,7 +22,6 @@ export function ChangeUserPasswordForm() {
 						control={form.control}
 						name='currentPassword'
 						label='Поточний пароль'
-						placeholder='********'
 						description='Введіть ваш поточний пароль'
 						disabled={isLoading}
 					/>
@@ -31,7 +30,6 @@ export function ChangeUserPasswordForm() {
 						control={form.control}
 						name='newPassword'
 						label='Новий пароль'
-						placeholder='********'
 						description='Пароль повинен містити щонайменше 8 символів, включаючи малі та великі літери, цифри'
 						disabled={isLoading}
 					/>
@@ -40,7 +38,6 @@ export function ChangeUserPasswordForm() {
 						control={form.control}
 						name='confirmPassword'
 						label='Підтвердити новий пароль'
-						placeholder='********'
 						description='Повторіть новий пароль для підтвердження'
 						disabled={isLoading}
 					/>

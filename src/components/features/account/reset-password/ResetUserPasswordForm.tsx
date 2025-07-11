@@ -26,7 +26,6 @@ export function ResetUserPasswordForm() {
 						control={form.control}
 						name='newPassword'
 						label='Новий пароль'
-						placeholder='********'
 						description='Пароль повинен містити щонайменше 8 символів, включаючи малі та великі літери, цифри'
 						disabled={isLoading}
 					/>
@@ -35,7 +34,6 @@ export function ResetUserPasswordForm() {
 						control={form.control}
 						name='confirmPassword'
 						label='Підтвердити новий пароль'
-						placeholder='********'
 						description='Повторіть новий пароль для підтвердження'
 						disabled={isLoading}
 					/>
