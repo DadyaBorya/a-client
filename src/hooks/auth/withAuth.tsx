@@ -58,7 +58,7 @@ function withAuth<P extends JSX.IntrinsicAttributes>(
 
 				if (!hasAllPermissions) {
 					toast.error('Недостатньо прав доступу')
-					router.push(ROUTES.HOME.path)
+					router.push(ROUTES.FORBIDDEN_PAGE.path)
 					return
 				}
 			}

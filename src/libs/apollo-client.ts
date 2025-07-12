@@ -1,9 +1,9 @@
 import {
 	ApolloCache,
 	ApolloClient,
-	NormalizedCacheObject,
-	createHttpLink
+	NormalizedCacheObject
 } from '@apollo/client'
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 
 const emptyCacheObj = {}
 class VoidCache extends ApolloCache<NormalizedCacheObject> {
@@ -70,9 +70,12 @@ class VoidCache extends ApolloCache<NormalizedCacheObject> {
 	}
 }
 
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
 	uri: process.env.NEXT_PUBLIC_SERVER_URL,
-	credentials: 'include'
+	credentials: 'include',
+	headers: {
+		'Apollo-Require-Preflight': 'true'
+	}
 })
 
 export const client = new ApolloClient({

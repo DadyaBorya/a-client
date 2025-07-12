@@ -1,0 +1,9 @@
+mutation CreateHstsMvsProcess(
+	$driverLicenseFile: Upload!
+	$carInfoFile: Upload!
+) {
+	createHstsMvsProcess(
+		driverLicenseFile: $driverLicenseFile
+		carInfoFile: $carInfoFile
+	)
+}

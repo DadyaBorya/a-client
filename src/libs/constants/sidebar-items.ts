@@ -21,7 +21,7 @@ export const SIDEBAR_ROUTES: Route[] = [
 	},
 	{
 		label: 'Обробка',
-		href: ROUTES.PROCESS.path,
+		href: ROUTES.PROCESS.HOME.path,
 		icon: Factory,
 		permissions: PROCESS_PERMISSIONS
 	},

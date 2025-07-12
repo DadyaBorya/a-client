@@ -4,6 +4,8 @@ import { Permission } from '@/graphql/generated/output'
 
 import { Route } from '../types/core'
 
+import { ROUTES } from './routes.constant'
+
 export const PROCESS_ROUTES: { title: string; items: Route[] }[] = [
 	{
 		title: 'Запити на обробку файлів',
@@ -39,7 +41,7 @@ export const PROCESS_ROUTES: { title: string; items: Route[] }[] = [
 			},
 			{
 				label: 'Створення записів',
-				href: '/5',
+				href: ROUTES.PROCESS.HSTS_MVS.CREATE.path,
 				icon: FilePlus,
 				permissions: [Permission.RequestReadOwn]
 			}

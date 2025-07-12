@@ -69,15 +69,26 @@ export const ROUTES = {
 		}
 	},
 	PROCESS: {
-		path: '/process',
-		label: 'Процеси',
-		parent: 'HOME',
-		icon: 'settings'
+		HOME: {
+			path: '/process',
+			label: 'Процеси',
+			parent: 'HOME',
+			icon: 'settings'
+		},
+		HSTS_MVS: {
+			CREATE: { path: '/process/hsts-mvs/create' }
+		}
 	},
 	SEARCH: {
 		path: '/search',
 		label: 'Пошук',
 		parent: 'HOME',
 		icon: 'search'
+	},
+	FORBIDDEN_PAGE: {
+		path: '/403',
+		label: 'Права',
+		parent: 'HOME',
+		icon: 'forbidden'
 	}
 } as const

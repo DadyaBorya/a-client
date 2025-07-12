@@ -65,6 +65,7 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   clearSessionCookie: Scalars['Boolean']['output'];
+  createHstsMvsProcess: Scalars['String']['output'];
   createUser: Scalars['Boolean']['output'];
   disabledTotp: Scalars['Boolean']['output'];
   enableTotp: Scalars['Boolean']['output'];
@@ -74,7 +75,12 @@ export type Mutation = {
   resetPasswordUser: Scalars['Boolean']['output'];
   updatePasswordUser: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
-  upload: Scalars['Boolean']['output'];
+};
+
+
+export type MutationCreateHstsMvsProcessArgs = {
+  carInfoFile: Scalars['Upload']['input'];
+  driverLicenseFile: Scalars['Upload']['input'];
 };
 
 
@@ -115,11 +121,6 @@ export type MutationUpdatePasswordUserArgs = {
 
 export type MutationUpdateUserArgs = {
   data: UpdateUserInput;
-};
-
-
-export type MutationUploadArgs = {
-  file: Scalars['Upload']['input'];
 };
 
 export enum OrderDirection {
@@ -280,6 +281,14 @@ export type RemoveSessionMutationVariables = Exact<{
 
 
 export type RemoveSessionMutation = { __typename?: 'Mutation', removeSession: boolean };
+
+export type CreateHstsMvsProcessMutationVariables = Exact<{
+  driverLicenseFile: Scalars['Upload']['input'];
+  carInfoFile: Scalars['Upload']['input'];
+}>;
+
+
+export type CreateHstsMvsProcessMutation = { __typename?: 'Mutation', createHstsMvsProcess: string };
 
 export type EnableTotpMutationVariables = Exact<{
   data: EnableTotpInput;
@@ -576,6 +585,41 @@ export function useRemoveSessionMutation(baseOptions?: Apollo.MutationHookOption
 export type RemoveSessionMutationHookResult = ReturnType<typeof useRemoveSessionMutation>;
 export type RemoveSessionMutationResult = Apollo.MutationResult<RemoveSessionMutation>;
 export type RemoveSessionMutationOptions = Apollo.BaseMutationOptions<RemoveSessionMutation, RemoveSessionMutationVariables>;
+export const CreateHstsMvsProcessDocument = gql`
+    mutation CreateHstsMvsProcess($driverLicenseFile: Upload!, $carInfoFile: Upload!) {
+  createHstsMvsProcess(
+    driverLicenseFile: $driverLicenseFile
+    carInfoFile: $carInfoFile
+  )
+}
+    `;
+export type CreateHstsMvsProcessMutationFn = Apollo.MutationFunction<CreateHstsMvsProcessMutation, CreateHstsMvsProcessMutationVariables>;
+
+/**
+ * __useCreateHstsMvsProcessMutation__
+ *
+ * To run a mutation, you first call `useCreateHstsMvsProcessMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateHstsMvsProcessMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createHstsMvsProcessMutation, { data, loading, error }] = useCreateHstsMvsProcessMutation({
+ *   variables: {
+ *      driverLicenseFile: // value for 'driverLicenseFile'
+ *      carInfoFile: // value for 'carInfoFile'
+ *   },
+ * });
+ */
+export function useCreateHstsMvsProcessMutation(baseOptions?: Apollo.MutationHookOptions<CreateHstsMvsProcessMutation, CreateHstsMvsProcessMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateHstsMvsProcessMutation, CreateHstsMvsProcessMutationVariables>(CreateHstsMvsProcessDocument, options);
+      }
+export type CreateHstsMvsProcessMutationHookResult = ReturnType<typeof useCreateHstsMvsProcessMutation>;
+export type CreateHstsMvsProcessMutationResult = Apollo.MutationResult<CreateHstsMvsProcessMutation>;
+export type CreateHstsMvsProcessMutationOptions = Apollo.BaseMutationOptions<CreateHstsMvsProcessMutation, CreateHstsMvsProcessMutationVariables>;
 export const EnableTotpDocument = gql`
     mutation EnableTotp($data: EnableTotpInput!) {
   enableTotp(data: $data)
