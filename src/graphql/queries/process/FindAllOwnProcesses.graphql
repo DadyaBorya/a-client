@@ -18,6 +18,7 @@ query FindAllOwnProcess($data: ListProcessesInput!) {
 			type
 			status
 			createdAt
+			finishedAt
 		}
 		total
 		pages

@@ -11,6 +11,7 @@ query FindHstsMvsById($id: String!) {
 			type
 			status
 			createdAt
+			finishedAt
 		}
 		driverLicenseFile {
 			id
@@ -35,5 +36,6 @@ query FindHstsMvsById($id: String!) {
 		}
 		stage
 		errorMessage
+		isAi
 	}
 }

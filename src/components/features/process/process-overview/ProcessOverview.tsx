@@ -1,4 +1,13 @@
-import { AlertCircle, Clock, Crown, FileCheck, User } from 'lucide-react'
+import {
+	AlarmClockCheck,
+	AlertCircle,
+	Clock,
+	Clock10,
+	Crown,
+	FileCheck,
+	User
+} from 'lucide-react'
+import React from 'react'
 
 import {
 	Card,
@@ -11,6 +20,8 @@ import {
 import { StatusBadge } from '@/components/ui/elements'
 
 import { ProcessType, Status } from '@/graphql/generated/output'
+
+import { useDurationTimer } from '@/hooks/time'
 
 import { ProcessTypeView } from '../type'
 
@@ -25,7 +36,9 @@ export function ProcessOverview({
 	stage,
 	owner,
 	progress,
-	errorMessage
+	errorMessage,
+	finishedAt,
+	children
 }: {
 	status: Status
 	id: string
@@ -36,7 +49,11 @@ export function ProcessOverview({
 	progress: number
 	owner?: string | null
 	errorMessage?: string | null
+	finishedAt?: Date | null
+	children?: React.ReactNode
 }) {
+	const duration = useDurationTimer(createdAt, finishedAt || undefined)
+
 	return (
 		<Card>
 			<CardHeader>
@@ -50,22 +67,42 @@ export function ProcessOverview({
 				</div>
 				<CardDescription>ID: {id}</CardDescription>
 			</CardHeader>
-			<CardContent className='space-y-4'>
-				<div className='flex items-center gap-3'>
-					<User className='text-muted-foreground h-5 w-5' />
-					<div>
-						<div className='font-medium'>Ініціатор</div>
-						<div className='text-muted-foreground text-sm'>
-							{displayName}
-						</div>
-					</div>
-				</div>
+			<CardContent className='grid grid-cols-3 space-y-4'>
 				<div className='flex items-center gap-3'>
 					<Clock className='text-muted-foreground h-5 w-5' />
 					<div>
 						<div className='font-medium'>Створено</div>
 						<div className='text-muted-foreground text-sm'>
 							{formatDate(createdAt)}
+						</div>
+					</div>
+				</div>
+				<div className='flex items-center gap-3'>
+					<Clock10 className='text-muted-foreground h-5 w-5' />
+					<div>
+						<div className='font-medium'>Тривалість</div>
+						<div className='text-muted-foreground text-sm'>
+							{duration}
+						</div>
+					</div>
+				</div>
+				<div className='flex items-center gap-3'>
+					<AlarmClockCheck className='text-muted-foreground h-5 w-5' />
+					<div>
+						<div className='font-medium'>Завершено</div>
+						<div className='text-muted-foreground text-sm'>
+							{finishedAt
+								? formatDate(finishedAt)
+								: 'Не завершено'}
+						</div>
+					</div>
+				</div>
+				<div className='flex items-center gap-3'>
+					<User className='text-muted-foreground h-5 w-5' />
+					<div>
+						<div className='font-medium'>Ініціатор</div>
+						<div className='text-muted-foreground text-sm'>
+							{displayName}
 						</div>
 					</div>
 				</div>
@@ -78,8 +115,8 @@ export function ProcessOverview({
 						</div>
 					</div>
 				</div>
-
-				<div className='space-y-2'>
+				{children}
+				<div className='col-span-3 space-y-2'>
 					<div className='flex items-center justify-between'>
 						<span className='text-sm font-medium'>Прогрес</span>
 						<span className='text-muted-foreground text-sm'>

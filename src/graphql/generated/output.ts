@@ -45,6 +45,7 @@ export type HstsMvsProcessModel = {
   carInfoFile: StorageModel;
   driverLicenseFile: StorageModel;
   errorMessage?: Maybe<Scalars['String']['output']>;
+  isAi: Scalars['Boolean']['output'];
   process: ProcessModel;
   resultFile?: Maybe<StorageModel>;
   stage: HstsMvsStage;
@@ -184,6 +185,7 @@ export type ProcessListModel = {
 export type ProcessModel = {
   __typename?: 'ProcessModel';
   createdAt: Scalars['DateTime']['output'];
+  finishedAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['String']['output'];
   owner?: Maybe<Scalars['String']['output']>;
   status: Status;
@@ -427,21 +429,21 @@ export type FindAllOwnProcessQueryVariables = Exact<{
 }>;
 
 
-export type FindAllOwnProcessQuery = { __typename?: 'Query', findAllOwnProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
+export type FindAllOwnProcessQuery = { __typename?: 'Query', findAllOwnProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
 
 export type FindAllProcessQueryVariables = Exact<{
   data: ListProcessesInput;
 }>;
 
 
-export type FindAllProcessQuery = { __typename?: 'Query', findAllProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
+export type FindAllProcessQuery = { __typename?: 'Query', findAllProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
 
 export type FindHstsMvsByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type FindHstsMvsByIdQuery = { __typename?: 'Query', findHstsMvsById: { __typename?: 'HstsMvsProcessModel', stage: HstsMvsStage, errorMessage?: string | null, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, driverLicenseFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, carInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
+export type FindHstsMvsByIdQuery = { __typename?: 'Query', findHstsMvsById: { __typename?: 'HstsMvsProcessModel', stage: HstsMvsStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, driverLicenseFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, carInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
 
 export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1103,6 +1105,7 @@ export const FindAllOwnProcessDocument = gql`
       type
       status
       createdAt
+      finishedAt
     }
     total
     pages
@@ -1166,6 +1169,7 @@ export const FindAllProcessDocument = gql`
       type
       status
       createdAt
+      finishedAt
     }
     total
     pages
@@ -1222,6 +1226,7 @@ export const FindHstsMvsByIdDocument = gql`
       type
       status
       createdAt
+      finishedAt
     }
     driverLicenseFile {
       id
@@ -1246,6 +1251,7 @@ export const FindHstsMvsByIdDocument = gql`
     }
     stage
     errorMessage
+    isAi
   }
 }
     `;

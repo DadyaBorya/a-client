@@ -1,6 +1,6 @@
 'use client'
 
-import { Car, Download, FileText } from 'lucide-react'
+import { Brain, Car, Clock, Download, FileText } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
@@ -44,9 +44,9 @@ export function HstsMvsProfile() {
 
 		if (!data?.findHstsMvsById) return
 
-		const { errorMessage, stage } = data.findHstsMvsById
+		const { process } = data.findHstsMvsById
 
-		if (errorMessage || stage === HstsMvsStage.Finished) {
+		if (process.finishedAt) {
 			if (intervalRef.current) {
 				clearInterval(intervalRef.current)
 				intervalRef.current = null
@@ -78,7 +78,8 @@ export function HstsMvsProfile() {
 		resultFile,
 		process,
 		stage,
-		errorMessage
+		errorMessage,
+		isAi
 	} = data.findHstsMvsById
 
 	return (
@@ -92,7 +93,23 @@ export function HstsMvsProfile() {
 				stage={HSTS_MVS_STAGES[stage]}
 				owner={process.owner}
 				errorMessage={errorMessage}
+				finishedAt={process.finishedAt}
 				progress={getProgressFromMap(stage, HSTS_MVS_STAGES)}
+				children={
+					<div className='flex items-center gap-3'>
+						<Brain className='text-muted-foreground h-5 w-5' />
+						<div>
+							<div className='font-medium'>
+								AI - нейрона мержа
+							</div>
+							<div className='text-muted-foreground text-sm'>
+								{isAi
+									? 'Обробка виконана за допомогою нейромережі'
+									: 'Обробка виконана вручну без використання AI'}
+							</div>
+						</div>
+					</div>
+				}
 			/>
 			<div className='flex gap-4'>
 				<FileCard
@@ -119,7 +136,7 @@ export function HstsMvsProfile() {
 			</div>
 			{resultFile ? (
 				<FileCard
-					title='	Результат'
+					title='Результат'
 					icon={Download}
 					id={resultFile.id}
 					inputFilename={resultFile.inputFilename}
