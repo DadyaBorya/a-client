@@ -119,7 +119,7 @@ export function HstsMvsProfile() {
 			</div>
 			{resultFile ? (
 				<FileCard
-					title='Картка транспортного засобу'
+					title='	Результат'
 					icon={Download}
 					id={resultFile.id}
 					inputFilename={resultFile.inputFilename}
