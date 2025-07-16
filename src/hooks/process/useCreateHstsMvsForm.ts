@@ -31,11 +31,11 @@ export function useCreateHstsMvsForm() {
 				user?.permissions.includes(Permission.ProcessReadOwn) ||
 				user?.isSuperUser === true
 			) {
-				// router.push(
-				// 	ROUTES.PROCESS.HSTS_MVS.VIEW.build(
-				// 		data.createHstsMvsProcess
-				// 	)
-				// )
+				router.push(
+					ROUTES.PROCESS.HSTS_MVS.VIEW.build(
+						data.createHstsMvsProcess
+					)
+				)
 			}
 		},
 		onError(err) {
