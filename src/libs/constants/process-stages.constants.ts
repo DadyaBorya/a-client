@@ -7,6 +7,9 @@ export const HSTS_MVS_STAGES: Record<HstsMvsStage, string> = {
 	[HstsMvsStage.ParseCarInfo]: 'Обробка інформації про автомобіль',
 	[HstsMvsStage.ValidateCarInfo]: 'Валідація інформації про автомобіль',
 	[HstsMvsStage.ModifyData]: 'Модифікація даних',
+	[HstsMvsStage.NormalizeDriverLicenceIssuedBy]:
+		'Нормалізація органу видачі водійського посвідчення',
+	[HstsMvsStage.NormalizeRegistrationPlace]: 'Нормалізація місця реєстрації',
 	[HstsMvsStage.GenerateResultData]: 'Генерація результатів',
 	[HstsMvsStage.Finished]: 'Завершено'
 }

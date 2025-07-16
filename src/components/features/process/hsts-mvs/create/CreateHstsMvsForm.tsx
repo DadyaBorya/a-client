@@ -1,5 +1,9 @@
 import { Button, Form } from '@/components/ui/common'
-import { FormSingleFileField, FormWrapper } from '@/components/ui/elements'
+import {
+	FormSingleFileField,
+	FormSwitchField,
+	FormWrapper
+} from '@/components/ui/elements'
 
 import { useCreateHstsMvsForm } from '@/hooks/process'
 
@@ -27,6 +31,13 @@ export function CreateHstsMvsForm() {
 						name='carInfoFile'
 						label='Інофрмація про машину'
 						description='Інофрмація про машину формату .xls'
+					/>
+
+					<FormSwitchField
+						control={form.control}
+						name='isAi'
+						label='Використати нейромережу'
+						description='Якщо увімкнено — дані будуть оброблені нейромережею автоматично'
 					/>
 
 					<Button disabled={isLoading} className='mt-2 w-full'>

@@ -9,7 +9,7 @@ import { FullScreenSpinner } from '@/components/ui/elements'
 
 import { Permission } from '@/graphql/generated/output'
 
-import { useCurrentUser } from '@/hooks/user'
+import { useCurrentUser, useUserStore } from '@/hooks/user'
 
 import { ROUTES, TOTP_NOT_ENABLED } from '@/libs/constants'
 
@@ -24,6 +24,7 @@ function withAuth<P extends JSX.IntrinsicAttributes>(
 		const [canRender, setCanRender] = useState(false)
 
 		const { user, isLoading, error, code } = useCurrentUser()
+		const { clear } = useUserStore()
 
 		useEffect(() => {
 			if (isLoading) return
@@ -42,6 +43,7 @@ function withAuth<P extends JSX.IntrinsicAttributes>(
 				}
 
 				toast.error(error.message)
+				clear()
 				router.push(ROUTES.AUTH.LOGIN.path)
 				return
 			}

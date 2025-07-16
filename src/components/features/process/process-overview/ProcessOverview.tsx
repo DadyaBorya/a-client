@@ -37,8 +37,6 @@ export function ProcessOverview({
 	owner?: string | null
 	errorMessage?: string | null
 }) {
-	console.log(owner)
-
 	return (
 		<Card>
 			<CardHeader>

@@ -80,8 +80,6 @@ export function useUpdateUserForm() {
 			}
 		})
 
-		console.log(changedFields)
-
 		const variables = {
 			data: { id: data.id, ...changedFields }
 		}

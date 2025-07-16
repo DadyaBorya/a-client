@@ -54,6 +54,8 @@ export enum HstsMvsStage {
   Finished = 'FINISHED',
   GenerateResultData = 'GENERATE_RESULT_DATA',
   ModifyData = 'MODIFY_DATA',
+  NormalizeDriverLicenceIssuedBy = 'NORMALIZE_DRIVER_LICENCE_ISSUED_BY',
+  NormalizeRegistrationPlace = 'NORMALIZE_REGISTRATION_PLACE',
   NotStarted = 'NOT_STARTED',
   ParseCarInfo = 'PARSE_CAR_INFO',
   ParseDriverLicence = 'PARSE_DRIVER_LICENCE',
@@ -110,6 +112,7 @@ export type Mutation = {
 export type MutationCreateHstsMvsProcessArgs = {
   carInfoFile: Scalars['Upload']['input'];
   driverLicenseFile: Scalars['Upload']['input'];
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -370,6 +373,7 @@ export type RemoveSessionMutation = { __typename?: 'Mutation', removeSession: bo
 export type CreateHstsMvsProcessMutationVariables = Exact<{
   driverLicenseFile: Scalars['Upload']['input'];
   carInfoFile: Scalars['Upload']['input'];
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
@@ -692,10 +696,11 @@ export type RemoveSessionMutationHookResult = ReturnType<typeof useRemoveSession
 export type RemoveSessionMutationResult = Apollo.MutationResult<RemoveSessionMutation>;
 export type RemoveSessionMutationOptions = Apollo.BaseMutationOptions<RemoveSessionMutation, RemoveSessionMutationVariables>;
 export const CreateHstsMvsProcessDocument = gql`
-    mutation CreateHstsMvsProcess($driverLicenseFile: Upload!, $carInfoFile: Upload!) {
+    mutation CreateHstsMvsProcess($driverLicenseFile: Upload!, $carInfoFile: Upload!, $isAi: Boolean) {
   createHstsMvsProcess(
     driverLicenseFile: $driverLicenseFile
     carInfoFile: $carInfoFile
+    isAi: $isAi
   )
 }
     `;
@@ -716,6 +721,7 @@ export type CreateHstsMvsProcessMutationFn = Apollo.MutationFunction<CreateHstsM
  *   variables: {
  *      driverLicenseFile: // value for 'driverLicenseFile'
  *      carInfoFile: // value for 'carInfoFile'
+ *      isAi: // value for 'isAi'
  *   },
  * });
  */

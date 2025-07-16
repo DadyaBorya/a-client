@@ -39,17 +39,11 @@ export function useCreateHstsMvsForm() {
 			}
 		},
 		onError(err) {
-			console.log(err)
-
 			toast.error('Помилка', { description: err.message })
 		}
 	})
 
 	function onSubmit(data: TypeCreateHstsMvsSchema) {
-		console.log('Submitting data:', data)
-		console.log('Driver license file:', data.driverLicenseFile)
-		console.log('Car info file:', data.carInfoFile)
-
 		create({
 			variables: {
 				...data

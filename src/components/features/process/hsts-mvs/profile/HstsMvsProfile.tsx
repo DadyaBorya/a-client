@@ -3,7 +3,7 @@
 import { Car, Download, FileText } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 
 import { ProcessOverview } from '@/components/features/process/process-overview'
@@ -13,7 +13,10 @@ import {
 	WaitingFileCard
 } from '@/components/ui/elements'
 
-import { useFindHstsMvsByIdQuery } from '@/graphql/generated/output'
+import {
+	HstsMvsStage,
+	useFindHstsMvsByIdQuery
+} from '@/graphql/generated/output'
 
 import { HSTS_MVS_STAGES, ROUTES } from '@/libs/constants'
 
@@ -24,17 +27,46 @@ export function HstsMvsProfile() {
 	const params = useParams()
 	const id = params.id as string
 
-	const { data, loading, error } = useFindHstsMvsByIdQuery({
+	const { data, loading, error, refetch } = useFindHstsMvsByIdQuery({
 		variables: { id },
-		errorPolicy: 'all'
+		errorPolicy: 'all',
+		fetchPolicy: 'network-only'
 	})
 
+	const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+	// TODO! SWITCH ON SUBSCRIPTION
 	useEffect(() => {
 		if (error) {
 			toast.error('Помилка', { description: error.message })
 			router.push(ROUTES.HOME.path)
 		}
-	}, [router, error])
+
+		if (!data?.findHstsMvsById) return
+
+		const { errorMessage, stage } = data.findHstsMvsById
+
+		if (errorMessage || stage === HstsMvsStage.Finished) {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current)
+				intervalRef.current = null
+			}
+			return
+		}
+
+		if (!intervalRef.current) {
+			intervalRef.current = setInterval(() => {
+				refetch()
+			}, 3000)
+		}
+
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current)
+				intervalRef.current = null
+			}
+		}
+	}, [data, error, refetch, router])
 
 	if (loading || !data?.findHstsMvsById) {
 		return <PageSpinner />

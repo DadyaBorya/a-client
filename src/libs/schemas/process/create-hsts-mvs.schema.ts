@@ -10,7 +10,8 @@ export const createHstsMvsSchema = z.object({
 		.instanceof(File, { message: 'Файл обовʼязковий' })
 		.refine(file => !file || file.size !== 0 || file.size <= 5000000, {
 			message: 'Файл занадто великий'
-		})
+		}),
+	isAi: z.boolean().optional()
 })
 
 export type TypeCreateHstsMvsSchema = z.infer<typeof createHstsMvsSchema>
