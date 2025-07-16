@@ -1,11 +1,18 @@
-import { Metadata } from 'next'
+'use client'
 
-import AccountProfilePage from '@/components/pages/AccountProfilePage'
+import { UserProfile } from '@/components/features/account/profile'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Профіль користувача'
+import { Permission } from '@/graphql/generated/output'
+
+import withAuth from '@/hooks/auth/withAuth'
+
+function AccountProfilePage() {
+	return (
+		<BorderWrapper>
+			<UserProfile />
+		</BorderWrapper>
+	)
 }
 
-export default async function AccountProfile() {
-	return <AccountProfilePage />
-}
+export default withAuth(AccountProfilePage, [Permission.UserRead])

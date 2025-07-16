@@ -1,11 +1,11 @@
-import { Metadata } from 'next'
+'use client'
 
-import HstsMvsProfilePage from '@/components/pages/HstsMvsProfilePage'
+import { HstsMvsProfile } from '@/components/features/process/hsts-mvs/profile'
 
-export const metadata: Metadata = {
-	title: 'Профіль запиту'
+import withAuth from '@/hooks/auth/withAuth'
+
+function HstsMvsProfilePage() {
+	return <HstsMvsProfile />
 }
 
-export default function HstsMvsProfile() {
-	return <HstsMvsProfilePage />
-}
+export default withAuth(HstsMvsProfilePage, [])

@@ -1,11 +1,30 @@
-import { Metadata } from 'next'
+'use client'
 
-import AccountListPage from '@/components/pages/AccountListPage'
+import {
+	AccountActions,
+	AccountFilter,
+	AccountPagination,
+	AccountTable
+} from '@/components/features/account/account-datatable'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Користувачі'
+import { Permission } from '@/graphql/generated/output'
+
+import withAuth from '@/hooks/auth/withAuth'
+
+function AccountListPage() {
+	return (
+		<>
+			<div className='mb-3 flex w-full gap-2'>
+				<AccountFilter />
+				<AccountActions />
+			</div>
+			<BorderWrapper>
+				<AccountTable />
+			</BorderWrapper>
+			<AccountPagination />
+		</>
+	)
 }
 
-export default function AccountList() {
-	return <AccountListPage />
-}
+export default withAuth(AccountListPage, [Permission.UserRead])

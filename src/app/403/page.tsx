@@ -1,15 +1,10 @@
 'use client'
 
-import { Metadata } from 'next'
 import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/common'
 
 import { ROUTES } from '@/libs/constants'
-
-export const metadata: Metadata = {
-	title: '403'
-}
 
 export default function ForbiddenPage() {
 	const router = useRouter()

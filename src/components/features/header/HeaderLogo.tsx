@@ -7,7 +7,7 @@ import { ROUTES } from '@/libs/constants'
 export function HeaderLogo() {
 	return (
 		<Link
-			href={ROUTES.HOME}
+			href={ROUTES.HOME.path}
 			className='flex items-center gap-x-4 transition-opacity hover:opacity-75'
 		>
 			<Logo className='h-12 w-12' />

@@ -1,11 +1,44 @@
-import { Metadata } from 'next'
+'use client'
 
-import OwnProcessListPage from '@/components/pages/OwnProcessListPage'
+import {
+	ProcessFilter,
+	ProcessPagination,
+	ProcessTable,
+	ownColumns
+} from '@/components/features/process/process-databale'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Мої запити на обробку'
+import {
+	Permission,
+	useFindAllOwnProcessQuery
+} from '@/graphql/generated/output'
+
+import withAuth from '@/hooks/auth/withAuth'
+
+import { useProcessesListStore } from '@/libs/stores/process'
+
+function OwnProcessListPage() {
+	const { filters } = useProcessesListStore()
+
+	const { data, loading: isLoading } = useFindAllOwnProcessQuery({
+		variables: { data: filters }
+	})
+
+	return (
+		<>
+			<div className='mb-3 flex w-full gap-2'>
+				<ProcessFilter />
+			</div>
+			<BorderWrapper>
+				<ProcessTable
+					data={data?.findAllOwnProcesses}
+					isLoading={isLoading}
+					columns={ownColumns}
+				/>
+			</BorderWrapper>
+			<ProcessPagination />
+		</>
+	)
 }
 
-export default function AllOwnProcesses() {
-	return <OwnProcessListPage />
-}
+export default withAuth(OwnProcessListPage, [Permission.ProcessReadOwn])

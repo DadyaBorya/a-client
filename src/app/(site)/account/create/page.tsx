@@ -1,11 +1,18 @@
-import { Metadata } from 'next'
+'use client'
 
-import CreateUserPage from '@/components/pages/CreateUserPage'
+import { CreateUserForm } from '@/components/features/account/create'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Створення нового користувача'
+import { Permission } from '@/graphql/generated/output'
+
+import withAuth from '@/hooks/auth/withAuth'
+
+function CreateUserPage() {
+	return (
+		<BorderWrapper>
+			<CreateUserForm />
+		</BorderWrapper>
+	)
 }
 
-export default function CreateUser() {
-	return <CreateUserPage />
-}
+export default withAuth(CreateUserPage, [Permission.UserCreate])

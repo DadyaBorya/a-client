@@ -1,11 +1,9 @@
-import { Metadata } from 'next'
+'use client'
 
-import HomePage from '@/components/pages/HomePage'
+import withAuth from '@/hooks/auth/withAuth'
 
-export const metadata: Metadata = {
-	title: 'Головна'
+function Home() {
+	return <div>HomePage</div>
 }
 
-export default function Home() {
-	return <HomePage />
-}
+export default withAuth(Home, [])

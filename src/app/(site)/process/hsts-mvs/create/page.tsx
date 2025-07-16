@@ -1,11 +1,18 @@
-import { Metadata } from 'next'
+'use client'
 
-import CreateHstsMvsFormPage from '@/components/pages/CreateHstsMvsFormPage'
+import { CreateHstsMvsForm } from '@/components/features/process/hsts-mvs/create'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Створення запиту на обробку'
+import { Permission } from '@/graphql/generated/output'
+
+import withAuth from '@/hooks/auth/withAuth'
+
+function CreateHstsMvsFormPage() {
+	return (
+		<BorderWrapper>
+			<CreateHstsMvsForm />
+		</BorderWrapper>
+	)
 }
 
-export default function HstsMvsCreate() {
-	return <CreateHstsMvsFormPage />
-}
+export default withAuth(CreateHstsMvsFormPage, [Permission.HstsMvsCreate])

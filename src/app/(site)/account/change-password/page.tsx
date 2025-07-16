@@ -1,11 +1,16 @@
-import { Metadata } from 'next'
+'use client'
 
-import ChangePasswordPage from '@/components/pages/ChangePasswordPage'
+import { ChangeUserPasswordForm } from '@/components/features/account/change-password'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Зміна паролю'
+import withAuth from '@/hooks/auth/withAuth'
+
+function ChangePasswordPage() {
+	return (
+		<BorderWrapper>
+			<ChangeUserPasswordForm />
+		</BorderWrapper>
+	)
 }
 
-export default function ChangePassword() {
-	return <ChangePasswordPage />
-}
+export default withAuth(ChangePasswordPage, [])

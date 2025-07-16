@@ -1,11 +1,18 @@
-import { Metadata } from 'next'
+'use client'
 
-import ResetPasswordPage from '@/components/pages/ResetPasswordPage'
+import { ResetUserPasswordForm } from '@/components/features/account/reset-password'
+import { BorderWrapper } from '@/components/ui/elements'
 
-export const metadata: Metadata = {
-	title: 'Відновлення паролю'
+import { Permission } from '@/graphql/generated/output'
+
+import withAuth from '@/hooks/auth/withAuth'
+
+function ResetPasswordPage() {
+	return (
+		<BorderWrapper>
+			<ResetUserPasswordForm />
+		</BorderWrapper>
+	)
 }
 
-export default function ResetPassword() {
-	return <ResetPasswordPage />
-}
+export default withAuth(ResetPasswordPage, [Permission.UserResetPassword])

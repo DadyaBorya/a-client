@@ -9,7 +9,12 @@ import {
 	ToasterProvider
 } from '@/providers'
 
-export const metadata: Metadata = {}
+export const metadata = {
+	title: {
+		default: 'AnalysisPlus',
+		template: '%s | AnalysisPlus'
+	}
+}
 
 export default function RootLayout({
 	children
