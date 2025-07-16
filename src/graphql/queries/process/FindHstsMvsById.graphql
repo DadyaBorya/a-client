@@ -1,0 +1,39 @@
+query FindHstsMvsById($id: String!) {
+	findHstsMvsById(id: $id) {
+		process {
+			id
+			user {
+				id
+				username
+				displayName
+			}
+			owner
+			type
+			status
+			createdAt
+		}
+		driverLicenseFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		carInfoFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		resultFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		stage
+		errorMessage
+	}
+}

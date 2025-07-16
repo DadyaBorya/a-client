@@ -14,10 +14,11 @@ export function AccountPagination() {
 		setFilters(newFilters)
 	}
 
-	const { pages, currentPage, hasNext, hasPrev } = userList
+	const { pages, currentPage, hasNext, hasPrev, total } = userList
 
 	return (
 		<BasePagination
+			total={total}
 			pages={pages}
 			currentPage={currentPage}
 			hasNext={hasNext}

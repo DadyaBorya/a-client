@@ -75,7 +75,17 @@ export const ROUTES = {
 			parent: 'HOME',
 			icon: 'settings'
 		},
+		ALL_OWN: {
+			path: '/process/all-own'
+		},
+		ALL: {
+			path: '/process/all'
+		},
 		HSTS_MVS: {
+			VIEW: {
+				path: '/process/hsts-mvs',
+				build: (id: string) => `/process/hsts-mvs/${id}`
+			},
 			CREATE: { path: '/process/hsts-mvs/create' }
 		}
 	},

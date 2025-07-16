@@ -40,6 +40,35 @@ export type EnableTotpInput = {
   secret: Scalars['String']['input'];
 };
 
+export type HstsMvsProcessModel = {
+  __typename?: 'HstsMvsProcessModel';
+  carInfoFile: StorageModel;
+  driverLicenseFile: StorageModel;
+  errorMessage?: Maybe<Scalars['String']['output']>;
+  process: ProcessModel;
+  resultFile?: Maybe<StorageModel>;
+  stage: HstsMvsStage;
+};
+
+export enum HstsMvsStage {
+  Finished = 'FINISHED',
+  GenerateResultData = 'GENERATE_RESULT_DATA',
+  ModifyData = 'MODIFY_DATA',
+  NotStarted = 'NOT_STARTED',
+  ParseCarInfo = 'PARSE_CAR_INFO',
+  ParseDriverLicence = 'PARSE_DRIVER_LICENCE',
+  ValidateCarInfo = 'VALIDATE_CAR_INFO',
+  ValidateDriverLicence = 'VALIDATE_DRIVER_LICENCE'
+}
+
+export type ListProcessesInput = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Scalars['String']['input']>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  searchFor?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ListUsersInput = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Scalars['String']['input']>;
@@ -130,10 +159,8 @@ export enum OrderDirection {
 
 export enum Permission {
   HstsMvsCreate = 'HSTS_MVS_CREATE',
-  HstsMvsReadAll = 'HSTS_MVS_READ_ALL',
-  HstsMvsReadOwn = 'HSTS_MVS_READ_OWN',
-  RequestReadAll = 'REQUEST_READ_ALL',
-  RequestReadOwn = 'REQUEST_READ_OWN',
+  ProcessReadAll = 'PROCESS_READ_ALL',
+  ProcessReadOwn = 'PROCESS_READ_OWN',
   UserCreate = 'USER_CREATE',
   UserDelete = 'USER_DELETE',
   UserRead = 'USER_READ',
@@ -141,10 +168,37 @@ export enum Permission {
   UserUpdate = 'USER_UPDATE'
 }
 
+export type ProcessListModel = {
+  __typename?: 'ProcessListModel';
+  currentPage: Scalars['Int']['output'];
+  data: Array<ProcessModel>;
+  hasNext: Scalars['Boolean']['output'];
+  hasPrev: Scalars['Boolean']['output'];
+  pages: Scalars['Int']['output'];
+  total: Scalars['Int']['output'];
+};
+
+export type ProcessModel = {
+  __typename?: 'ProcessModel';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  owner?: Maybe<Scalars['String']['output']>;
+  status: Status;
+  type: ProcessType;
+  user: UserModel;
+};
+
+export enum ProcessType {
+  HstsMvs = 'HSTS_MVS'
+}
+
 export type Query = {
   __typename?: 'Query';
+  findAllOwnProcesses: ProcessListModel;
+  findAllProcesses: ProcessListModel;
   findAllUsers: UserListModel;
   findCurrentSession: SessionModel;
+  findHstsMvsById: HstsMvsProcessModel;
   findMe: UserModel;
   findSessions: Array<SessionModel>;
   findSessionsById: Array<SessionModel>;
@@ -153,8 +207,23 @@ export type Query = {
 };
 
 
+export type QueryFindAllOwnProcessesArgs = {
+  data: ListProcessesInput;
+};
+
+
+export type QueryFindAllProcessesArgs = {
+  data: ListProcessesInput;
+};
+
+
 export type QueryFindAllUsersArgs = {
   data: ListUsersInput;
+};
+
+
+export type QueryFindHstsMvsByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -185,6 +254,22 @@ export type SessionModel = {
   id: Scalars['ID']['output'];
   metadata: SessionMetadaModel;
   userId: Scalars['String']['output'];
+};
+
+export enum Status {
+  End = 'END',
+  Error = 'ERROR',
+  Pending = 'PENDING',
+  Started = 'STARTED'
+}
+
+export type StorageModel = {
+  __typename?: 'StorageModel';
+  extension: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  inputFilename: Scalars['String']['output'];
+  outputFilename?: Maybe<Scalars['String']['output']>;
+  size: Scalars['Int']['output'];
 };
 
 export type TotpModel = {
@@ -332,6 +417,27 @@ export type FindSessionsByUsersQueryVariables = Exact<{ [key: string]: never; }>
 
 
 export type FindSessionsByUsersQuery = { __typename?: 'Query', findSessions: Array<{ __typename?: 'SessionModel', id: string, userId: string, createdAt: string, metadata: { __typename?: 'SessionMetadaModel', ip: string, location: { __typename?: 'LocationModel', city: string, country: string, latidute: number, longitude: number }, device: { __typename?: 'DeviceModel', os?: string | null, browser?: string | null, type?: string | null } } }> };
+
+export type FindAllOwnProcessQueryVariables = Exact<{
+  data: ListProcessesInput;
+}>;
+
+
+export type FindAllOwnProcessQuery = { __typename?: 'Query', findAllOwnProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
+
+export type FindAllProcessQueryVariables = Exact<{
+  data: ListProcessesInput;
+}>;
+
+
+export type FindAllProcessQuery = { __typename?: 'Query', findAllProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
+
+export type FindHstsMvsByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindHstsMvsByIdQuery = { __typename?: 'Query', findHstsMvsById: { __typename?: 'HstsMvsProcessModel', stage: HstsMvsStage, errorMessage?: string | null, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, driverLicenseFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, carInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
 
 export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -970,6 +1076,206 @@ export type FindSessionsByUsersQueryHookResult = ReturnType<typeof useFindSessio
 export type FindSessionsByUsersLazyQueryHookResult = ReturnType<typeof useFindSessionsByUsersLazyQuery>;
 export type FindSessionsByUsersSuspenseQueryHookResult = ReturnType<typeof useFindSessionsByUsersSuspenseQuery>;
 export type FindSessionsByUsersQueryResult = Apollo.QueryResult<FindSessionsByUsersQuery, FindSessionsByUsersQueryVariables>;
+export const FindAllOwnProcessDocument = gql`
+    query FindAllOwnProcess($data: ListProcessesInput!) {
+  findAllOwnProcesses(data: $data) {
+    data {
+      id
+      user {
+        id
+        username
+        displayName
+        permissions
+        isTotpEnabled
+        isSuperUser
+        isBlocked
+        createdAt
+        isTotpEnabled
+        updatedAt
+      }
+      owner
+      type
+      status
+      createdAt
+    }
+    total
+    pages
+    currentPage
+    hasNext
+    hasPrev
+  }
+}
+    `;
+
+/**
+ * __useFindAllOwnProcessQuery__
+ *
+ * To run a query within a React component, call `useFindAllOwnProcessQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllOwnProcessQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllOwnProcessQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useFindAllOwnProcessQuery(baseOptions: Apollo.QueryHookOptions<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables> & ({ variables: FindAllOwnProcessQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables>(FindAllOwnProcessDocument, options);
+      }
+export function useFindAllOwnProcessLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables>(FindAllOwnProcessDocument, options);
+        }
+export function useFindAllOwnProcessSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables>(FindAllOwnProcessDocument, options);
+        }
+export type FindAllOwnProcessQueryHookResult = ReturnType<typeof useFindAllOwnProcessQuery>;
+export type FindAllOwnProcessLazyQueryHookResult = ReturnType<typeof useFindAllOwnProcessLazyQuery>;
+export type FindAllOwnProcessSuspenseQueryHookResult = ReturnType<typeof useFindAllOwnProcessSuspenseQuery>;
+export type FindAllOwnProcessQueryResult = Apollo.QueryResult<FindAllOwnProcessQuery, FindAllOwnProcessQueryVariables>;
+export const FindAllProcessDocument = gql`
+    query FindAllProcess($data: ListProcessesInput!) {
+  findAllProcesses(data: $data) {
+    data {
+      id
+      user {
+        id
+        username
+        displayName
+        permissions
+        isTotpEnabled
+        isSuperUser
+        isBlocked
+        createdAt
+        isTotpEnabled
+        updatedAt
+      }
+      owner
+      type
+      status
+      createdAt
+    }
+    total
+    pages
+    currentPage
+    hasNext
+    hasPrev
+  }
+}
+    `;
+
+/**
+ * __useFindAllProcessQuery__
+ *
+ * To run a query within a React component, call `useFindAllProcessQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllProcessQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllProcessQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useFindAllProcessQuery(baseOptions: Apollo.QueryHookOptions<FindAllProcessQuery, FindAllProcessQueryVariables> & ({ variables: FindAllProcessQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllProcessQuery, FindAllProcessQueryVariables>(FindAllProcessDocument, options);
+      }
+export function useFindAllProcessLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllProcessQuery, FindAllProcessQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllProcessQuery, FindAllProcessQueryVariables>(FindAllProcessDocument, options);
+        }
+export function useFindAllProcessSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindAllProcessQuery, FindAllProcessQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindAllProcessQuery, FindAllProcessQueryVariables>(FindAllProcessDocument, options);
+        }
+export type FindAllProcessQueryHookResult = ReturnType<typeof useFindAllProcessQuery>;
+export type FindAllProcessLazyQueryHookResult = ReturnType<typeof useFindAllProcessLazyQuery>;
+export type FindAllProcessSuspenseQueryHookResult = ReturnType<typeof useFindAllProcessSuspenseQuery>;
+export type FindAllProcessQueryResult = Apollo.QueryResult<FindAllProcessQuery, FindAllProcessQueryVariables>;
+export const FindHstsMvsByIdDocument = gql`
+    query FindHstsMvsById($id: String!) {
+  findHstsMvsById(id: $id) {
+    process {
+      id
+      user {
+        id
+        username
+        displayName
+      }
+      owner
+      type
+      status
+      createdAt
+    }
+    driverLicenseFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    carInfoFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    resultFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    stage
+    errorMessage
+  }
+}
+    `;
+
+/**
+ * __useFindHstsMvsByIdQuery__
+ *
+ * To run a query within a React component, call `useFindHstsMvsByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindHstsMvsByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindHstsMvsByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindHstsMvsByIdQuery(baseOptions: Apollo.QueryHookOptions<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables> & ({ variables: FindHstsMvsByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>(FindHstsMvsByIdDocument, options);
+      }
+export function useFindHstsMvsByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>(FindHstsMvsByIdDocument, options);
+        }
+export function useFindHstsMvsByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>(FindHstsMvsByIdDocument, options);
+        }
+export type FindHstsMvsByIdQueryHookResult = ReturnType<typeof useFindHstsMvsByIdQuery>;
+export type FindHstsMvsByIdLazyQueryHookResult = ReturnType<typeof useFindHstsMvsByIdLazyQuery>;
+export type FindHstsMvsByIdSuspenseQueryHookResult = ReturnType<typeof useFindHstsMvsByIdSuspenseQuery>;
+export type FindHstsMvsByIdQueryResult = Apollo.QueryResult<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>;
 export const GenerateTotpSecretDocument = gql`
     query GenerateTotpSecret {
   generateTotpSecret {

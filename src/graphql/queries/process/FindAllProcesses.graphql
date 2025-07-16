@@ -1,0 +1,28 @@
+query FindAllProcess($data: ListProcessesInput!) {
+	findAllProcesses(data: $data) {
+		data {
+			id
+			user {
+				id
+				username
+				displayName
+				permissions
+				isTotpEnabled
+				isSuperUser
+				isBlocked
+				createdAt
+				isTotpEnabled
+				updatedAt
+			}
+			owner
+			type
+			status
+			createdAt
+		}
+		total
+		pages
+		currentPage
+		hasNext
+		hasPrev
+	}
+}

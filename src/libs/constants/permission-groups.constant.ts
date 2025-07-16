@@ -33,10 +33,10 @@ export const permissionGroups: PermissionGroup[] = [
 	{
 		groupLabel: 'Запити на обробку файлів',
 		permissions: {
-			[Permission.RequestReadAll]: {
+			[Permission.ProcessReadAll]: {
 				label: 'Перегляд усіх запитів'
 			},
-			[Permission.RequestReadOwn]: {
+			[Permission.ProcessReadOwn]: {
 				label: 'Перегляд власних запитів'
 			}
 		}
@@ -44,12 +44,6 @@ export const permissionGroups: PermissionGroup[] = [
 	{
 		groupLabel: 'Обробка файлів ГСЦ МВС',
 		permissions: {
-			[Permission.HstsMvsReadAll]: {
-				label: 'Перегляд усіх записів'
-			},
-			[Permission.HstsMvsReadOwn]: {
-				label: 'Перегляд власних записів'
-			},
 			[Permission.HstsMvsCreate]: {
 				label: 'Створення записів'
 			}
