@@ -1,5 +1,5 @@
 mutation CreateHstsMvsProcess(
-	$driverLicenseFile: Upload!
+	$driverLicenseFile: Upload
 	$carInfoFile: Upload!
 	$isAi: Boolean
 ) {

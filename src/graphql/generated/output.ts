@@ -43,7 +43,7 @@ export type EnableTotpInput = {
 export type HstsMvsProcessModel = {
   __typename?: 'HstsMvsProcessModel';
   carInfoFile: StorageModel;
-  driverLicenseFile: StorageModel;
+  driverLicenseFile?: Maybe<StorageModel>;
   errorMessage?: Maybe<Scalars['String']['output']>;
   isAi: Scalars['Boolean']['output'];
   process: ProcessModel;
@@ -112,7 +112,7 @@ export type Mutation = {
 
 export type MutationCreateHstsMvsProcessArgs = {
   carInfoFile: Scalars['Upload']['input'];
-  driverLicenseFile: Scalars['Upload']['input'];
+  driverLicenseFile?: InputMaybe<Scalars['Upload']['input']>;
   isAi?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -373,7 +373,7 @@ export type RemoveSessionMutationVariables = Exact<{
 export type RemoveSessionMutation = { __typename?: 'Mutation', removeSession: boolean };
 
 export type CreateHstsMvsProcessMutationVariables = Exact<{
-  driverLicenseFile: Scalars['Upload']['input'];
+  driverLicenseFile?: InputMaybe<Scalars['Upload']['input']>;
   carInfoFile: Scalars['Upload']['input'];
   isAi?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
@@ -443,7 +443,7 @@ export type FindHstsMvsByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindHstsMvsByIdQuery = { __typename?: 'Query', findHstsMvsById: { __typename?: 'HstsMvsProcessModel', stage: HstsMvsStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, driverLicenseFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, carInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
+export type FindHstsMvsByIdQuery = { __typename?: 'Query', findHstsMvsById: { __typename?: 'HstsMvsProcessModel', stage: HstsMvsStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, driverLicenseFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null, carInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
 
 export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -698,7 +698,7 @@ export type RemoveSessionMutationHookResult = ReturnType<typeof useRemoveSession
 export type RemoveSessionMutationResult = Apollo.MutationResult<RemoveSessionMutation>;
 export type RemoveSessionMutationOptions = Apollo.BaseMutationOptions<RemoveSessionMutation, RemoveSessionMutationVariables>;
 export const CreateHstsMvsProcessDocument = gql`
-    mutation CreateHstsMvsProcess($driverLicenseFile: Upload!, $carInfoFile: Upload!, $isAi: Boolean) {
+    mutation CreateHstsMvsProcess($driverLicenseFile: Upload, $carInfoFile: Upload!, $isAi: Boolean) {
   createHstsMvsProcess(
     driverLicenseFile: $driverLicenseFile
     carInfoFile: $carInfoFile

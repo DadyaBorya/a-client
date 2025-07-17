@@ -108,16 +108,18 @@ export function HstsMvsProfile() {
 				}
 			/>
 			<div className='flex gap-4'>
-				<FileCard
-					title='Посвідчення водія'
-					icon={FileText}
-					id={driverLicenseFile.id}
-					inputFilename={driverLicenseFile.inputFilename}
-					outputFilename={driverLicenseFile.outputFilename}
-					size={driverLicenseFile.size}
-					extension={driverLicenseFile.extension}
-					type={process.type}
-				/>
+				{driverLicenseFile && (
+					<FileCard
+						title='Посвідчення водія'
+						icon={FileText}
+						id={driverLicenseFile.id}
+						inputFilename={driverLicenseFile.inputFilename}
+						outputFilename={driverLicenseFile.outputFilename}
+						size={driverLicenseFile.size}
+						extension={driverLicenseFile.extension}
+						type={process.type}
+					/>
+				)}
 
 				<FileCard
 					title='Картка транспортного засобу'

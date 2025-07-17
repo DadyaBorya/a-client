@@ -1,11 +1,5 @@
-import { Metadata } from 'next'
-
-import TotpEnablePage from '@/components/pages/TotpEnablePage'
-
-export const metadata: Metadata = {
-	title: 'Увімкнення двофакторної автентифікації'
-}
+import { TotpEnableForm } from '@/components/features/auth/totp-enable'
 
 export default function TotpEnable() {
-	return <TotpEnablePage />
+	return <TotpEnableForm />
 }
