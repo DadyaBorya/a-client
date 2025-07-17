@@ -25,6 +25,7 @@ import { useDurationTimer } from '@/hooks/time'
 
 import { ProcessTypeView } from '../type'
 
+import { ProcessInfoItem } from './ProcessInfoItem'
 import { formatDate } from '@/utils'
 
 export function ProcessOverview({
@@ -68,53 +69,35 @@ export function ProcessOverview({
 				<CardDescription>ID: {id}</CardDescription>
 			</CardHeader>
 			<CardContent className='grid grid-cols-3 space-y-4'>
-				<div className='flex items-center gap-3'>
-					<Clock className='text-muted-foreground h-5 w-5' />
-					<div>
-						<div className='font-medium'>Створено</div>
-						<div className='text-muted-foreground text-sm'>
-							{formatDate(createdAt)}
-						</div>
-					</div>
-				</div>
-				<div className='flex items-center gap-3'>
-					<Clock10 className='text-muted-foreground h-5 w-5' />
-					<div>
-						<div className='font-medium'>Тривалість</div>
-						<div className='text-muted-foreground text-sm'>
-							{duration}
-						</div>
-					</div>
-				</div>
-				<div className='flex items-center gap-3'>
-					<AlarmClockCheck className='text-muted-foreground h-5 w-5' />
-					<div>
-						<div className='font-medium'>Завершено</div>
-						<div className='text-muted-foreground text-sm'>
-							{finishedAt
-								? formatDate(finishedAt)
-								: 'Не завершено'}
-						</div>
-					</div>
-				</div>
-				<div className='flex items-center gap-3'>
-					<User className='text-muted-foreground h-5 w-5' />
-					<div>
-						<div className='font-medium'>Ініціатор</div>
-						<div className='text-muted-foreground text-sm'>
-							{displayName}
-						</div>
-					</div>
-				</div>
-				<div className='flex items-center gap-3'>
-					<Crown className='text-muted-foreground h-5 w-5' />
-					<div>
-						<div className='font-medium'>Суб'єкт</div>
-						<div className='text-muted-foreground text-sm'>
-							{owner || 'Не визначено'}
-						</div>
-					</div>
-				</div>
+				<ProcessInfoItem
+					icon={<Clock />}
+					label='Створено'
+					value={formatDate(createdAt)}
+				/>
+
+				<ProcessInfoItem
+					icon={<Clock10 />}
+					label='Тривалість'
+					value={duration}
+				/>
+
+				<ProcessInfoItem
+					icon={<AlarmClockCheck />}
+					label='Завершено'
+					value={finishedAt ? formatDate(finishedAt) : 'Не завершено'}
+				/>
+
+				<ProcessInfoItem
+					icon={<User />}
+					label='Ініціатор'
+					value={displayName}
+				/>
+
+				<ProcessInfoItem
+					icon={<Crown />}
+					label="Суб'єкт"
+					value={owner || 'Не визначено'}
+				/>
 				{children}
 				<div className='col-span-3 space-y-2'>
 					<div className='flex items-center justify-between'>

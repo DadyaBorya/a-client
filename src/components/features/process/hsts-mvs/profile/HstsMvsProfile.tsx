@@ -1,22 +1,22 @@
 'use client'
 
-import { Brain, Car, Clock, Download, FileText } from 'lucide-react'
+import { Brain, Car, Download, FileText } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 
-import { ProcessOverview } from '@/components/features/process/process-overview'
+import {
+	ProcessInfoItem,
+	ProcessOverview
+} from '@/components/features/process/process-overview'
 import {
 	FileCard,
 	PageSpinner,
 	WaitingFileCard
 } from '@/components/ui/elements'
 
-import {
-	HstsMvsStage,
-	useFindHstsMvsByIdQuery
-} from '@/graphql/generated/output'
+import { useFindHstsMvsByIdQuery } from '@/graphql/generated/output'
 
 import { HSTS_MVS_STAGES, ROUTES } from '@/libs/constants'
 
@@ -96,19 +96,15 @@ export function HstsMvsProfile() {
 				finishedAt={process.finishedAt}
 				progress={getProgressFromMap(stage, HSTS_MVS_STAGES)}
 				children={
-					<div className='flex items-center gap-3'>
-						<Brain className='text-muted-foreground h-5 w-5' />
-						<div>
-							<div className='font-medium'>
-								AI - нейрона мержа
-							</div>
-							<div className='text-muted-foreground text-sm'>
-								{isAi
-									? 'Обробка виконана за допомогою нейромережі'
-									: 'Обробка виконана вручну без використання AI'}
-							</div>
-						</div>
-					</div>
+					<ProcessInfoItem
+						icon={<Brain />}
+						label='AI - нейрона мержа'
+						value={
+							isAi
+								? 'Обробка виконана за допомогою нейромережі'
+								: 'Обробка виконана вручну без використання AI'
+						}
+					/>
 				}
 			/>
 			<div className='flex gap-4'>
