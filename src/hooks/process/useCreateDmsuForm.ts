@@ -5,8 +5,7 @@ import { toast } from 'sonner'
 
 import {
 	Permission,
-	useCreateDmsuProcessMutation,
-	useCreateHstsMvsProcessMutation
+	useCreateDmsuProcessMutation
 } from '@/graphql/generated/output'
 
 import { ROUTES } from '@/libs/constants'
