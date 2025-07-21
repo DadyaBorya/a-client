@@ -29,9 +29,9 @@ export function useCreateDmsuForm() {
 				user?.permissions.includes(Permission.ProcessReadOwn) ||
 				user?.isSuperUser === true
 			) {
-				// router.push(
-				// 	ROUTES.PROCESS.DMSU.VIEW.build(data.createDmsuProcess)
-				// )
+				router.push(
+					ROUTES.PROCESS.DMSU.VIEW.build(data.createDmsuProcess)
+				)
 			}
 		},
 		onError(err) {
