@@ -1,0 +1,106 @@
+src/
+├── app/                          # Next.js App Router
+│   ├── (auth)/
+│   │   ├── login/
+│   │   └── totp-enable/
+│   ├── (dashboard)/
+│   │   ├── accounts/
+│   │   ├── processes/
+│   │   └── profile/
+│   ├── api/                      # API routes (якщо потрібні)
+│   └── globals.css
+│
+├── features/                     # Основна логіка за доменами
+│   ├── auth/
+│   │   ├── components/
+│   │   │   ├── LoginForm.tsx
+│   │   │   └── TotpEnableForm.tsx
+│   │   ├── hooks/
+│   │   │   ├── useLogin.ts
+│   │   │   └── useTotp.ts
+│   │   ├── services/
+│   │   │   └── auth.service.ts
+│   │   ├── types/
+│   │   │   └── auth.types.ts
+│   │   └── index.ts
+│   │
+│   ├── accounts/
+│   │   ├── components/
+│   │   │   ├── AccountTable/
+│   │   │   │   ├── AccountTable.tsx
+│   │   │   │   ├── columns.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── AccountForm/
+│   │   │   │   ├── CreateForm.tsx
+│   │   │   │   ├── UpdateForm.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── AccountProfile.tsx
+│   │   ├── hooks/
+│   │   │   ├── useAccounts.ts
+│   │   │   └── useAccountForm.ts
+│   │   ├── services/
+│   │   │   └── accounts.service.ts
+│   │   ├── store/
+│   │   │   └── accounts.store.ts
+│   │   └── index.ts
+│   │
+│   ├── processes/
+│   │   ├── components/
+│   │   │   ├── ProcessTable/
+│   │   │   ├── ProcessForms/
+│   │   │   └── ProcessProfile/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── store/
+│   │   └── types/
+│   │       ├── dmsu.types.ts
+│   │       └── hsts-mvs.types.ts
+│   │
+│   └── shared/                   # Спільна логіка між features
+│       ├── components/
+│       │   ├── DataTable/        # Загальна таблиця
+│       │   ├── Forms/            # Загальні форм компоненти
+│       │   └── Layout/
+│       ├── hooks/
+│       │   └── useMediaQuery.ts
+│       ├── services/
+│       │   └── api.service.ts
+│       └── utils/
+│
+├── shared/                       # Глобальні утиліти та конфігурації
+│   ├── api/
+│   │   ├── apollo-client.ts
+│   │   ├── graphql/
+│   │   │   ├── generated/
+│   │   │   ├── queries/
+│   │   │   └── mutations/
+│   │   └── types.ts
+│   │
+│   ├── components/               # UI Kit
+│   │   ├── ui/                   # Базові компоненти (shadcn/ui)
+│   │   └── layouts/
+│   │       ├── DashboardLayout.tsx
+│   │       └── AuthLayout.tsx
+│   │
+│   ├── constants/
+│   │   ├── routes.ts
+│   │   ├── permissions.ts
+│   │   └── config.ts
+│   │
+│   ├── stores/
+│   │   ├── global.store.ts
+│   │   └── theme.store.ts
+│   │
+│   ├── types/
+│   │   ├── global.types.ts
+│   │   └── api.types.ts
+│   │
+│   └── utils/
+│       ├── validation.ts
+│       ├── formatting.ts
+│       └── helpers.ts
+│
+└── providers/
+    ├── AppProvider.tsx           # Об'єднаний провайдер
+    ├── ApolloProvider.tsx
+    └── ThemeProvider.tsx
