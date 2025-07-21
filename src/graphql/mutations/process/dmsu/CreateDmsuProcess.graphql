@@ -1,0 +1,3 @@
+mutation CreateDmsuProcess($personInfoFile: Upload!, $isAi: Boolean) {
+	createDmsuProcess(personInfoFile: $personInfoFile, isAi: $isAi)
+}

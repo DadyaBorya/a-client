@@ -34,5 +34,16 @@ export const PROCESS_ROUTES: { title: string; items: Route[] }[] = [
 				permissions: [Permission.HstsMvsCreate]
 			}
 		]
+	},
+	{
+		title: 'Обробка файлів ДМСУ',
+		items: [
+			{
+				label: 'Створення записів',
+				href: ROUTES.PROCESS.DMSU.CREATE.path,
+				icon: FilePlus,
+				permissions: [Permission.DmsuCreate]
+			}
+		]
 	}
 ]

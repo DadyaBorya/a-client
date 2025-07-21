@@ -4,7 +4,6 @@ import { Button, Form, Label } from '@/components/ui/common'
 import {
 	CheckboxGroup,
 	FormInputField,
-	FormPasswordInputField,
 	FormSwitchField,
 	FormWrapper,
 	PageSpinner
@@ -67,7 +66,7 @@ export function UpdateUserForm() {
 
 					<Label>Права доступу</Label>
 
-					<div className='grid grid-cols-3'>
+					<div className='grid grid-cols-3 gap-y-4'>
 						{permissionGroups.map(group => (
 							<div key={group.groupLabel}>
 								<CheckboxGroup<

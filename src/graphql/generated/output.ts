@@ -35,6 +35,32 @@ export type DeviceModel = {
   type?: Maybe<Scalars['String']['output']>;
 };
 
+export type DmsuProcessModel = {
+  __typename?: 'DmsuProcessModel';
+  errorMessage?: Maybe<Scalars['String']['output']>;
+  isAi: Scalars['Boolean']['output'];
+  personInfoFile: StorageModel;
+  process: ProcessModel;
+  resultFile?: Maybe<StorageModel>;
+  stage: DmsuStage;
+  withoutWMFile?: Maybe<StorageModel>;
+};
+
+export enum DmsuStage {
+  ExtractImageAndRemoveWaterMark = 'EXTRACT_IMAGE_AND_REMOVE_WATER_MARK',
+  Finished = 'FINISHED',
+  GenerateResultData = 'GENERATE_RESULT_DATA',
+  ModifyData = 'MODIFY_DATA',
+  NormalizeBirthPlace = 'NORMALIZE_BIRTH_PLACE',
+  NormalizeForeignPassportsIssuer = 'NORMALIZE_FOREIGN_PASSPORTS_ISSUER',
+  NormalizeGenitiveFullname = 'NORMALIZE_GENITIVE_FULLNAME',
+  NormalizePassportsIssuer = 'NORMALIZE_PASSPORTS_ISSUER',
+  NormalizeRegistarionAddress = 'NORMALIZE_REGISTARION_ADDRESS',
+  NotStarted = 'NOT_STARTED',
+  ParsePersonInfo = 'PARSE_PERSON_INFO',
+  ValidatePersonInfo = 'VALIDATE_PERSON_INFO'
+}
+
 export type EnableTotpInput = {
   pin: Scalars['String']['input'];
   secret: Scalars['String']['input'];
@@ -97,6 +123,7 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   clearSessionCookie: Scalars['Boolean']['output'];
+  createDmsuProcess: Scalars['String']['output'];
   createHstsMvsProcess: Scalars['String']['output'];
   createUser: Scalars['Boolean']['output'];
   disabledTotp: Scalars['Boolean']['output'];
@@ -107,6 +134,12 @@ export type Mutation = {
   resetPasswordUser: Scalars['Boolean']['output'];
   updatePasswordUser: Scalars['Boolean']['output'];
   updateUser: Scalars['Boolean']['output'];
+};
+
+
+export type MutationCreateDmsuProcessArgs = {
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
+  personInfoFile: Scalars['Upload']['input'];
 };
 
 
@@ -162,6 +195,7 @@ export enum OrderDirection {
 }
 
 export enum Permission {
+  DmsuCreate = 'DMSU_CREATE',
   HstsMvsCreate = 'HSTS_MVS_CREATE',
   ProcessReadAll = 'PROCESS_READ_ALL',
   ProcessReadOwn = 'PROCESS_READ_OWN',
@@ -194,6 +228,7 @@ export type ProcessModel = {
 };
 
 export enum ProcessType {
+  Dmsu = 'DMSU',
   HstsMvs = 'HSTS_MVS'
 }
 
@@ -203,6 +238,7 @@ export type Query = {
   findAllProcesses: ProcessListModel;
   findAllUsers: UserListModel;
   findCurrentSession: SessionModel;
+  findDmsuById: DmsuProcessModel;
   findHstsMvsById: HstsMvsProcessModel;
   findMe: UserModel;
   findSessions: Array<SessionModel>;
@@ -224,6 +260,11 @@ export type QueryFindAllProcessesArgs = {
 
 export type QueryFindAllUsersArgs = {
   data: ListUsersInput;
+};
+
+
+export type QueryFindDmsuByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -372,6 +413,14 @@ export type RemoveSessionMutationVariables = Exact<{
 
 export type RemoveSessionMutation = { __typename?: 'Mutation', removeSession: boolean };
 
+export type CreateDmsuProcessMutationVariables = Exact<{
+  personInfoFile: Scalars['Upload']['input'];
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type CreateDmsuProcessMutation = { __typename?: 'Mutation', createDmsuProcess: string };
+
 export type CreateHstsMvsProcessMutationVariables = Exact<{
   driverLicenseFile?: InputMaybe<Scalars['Upload']['input']>;
   carInfoFile: Scalars['Upload']['input'];
@@ -437,6 +486,13 @@ export type FindAllProcessQueryVariables = Exact<{
 
 
 export type FindAllProcessQuery = { __typename?: 'Query', findAllProcesses: { __typename?: 'ProcessListModel', total: number, pages: number, currentPage: number, hasNext: boolean, hasPrev: boolean, data: Array<{ __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string, permissions: Array<Permission>, isTotpEnabled: boolean, isSuperUser: boolean, isBlocked: boolean, createdAt: any, updatedAt: any } }> } };
+
+export type FindDmsuByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindDmsuByIdQuery = { __typename?: 'Query', findDmsuById: { __typename?: 'DmsuProcessModel', stage: DmsuStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, personInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, withoutWMFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
 
 export type FindHstsMvsByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -697,6 +753,38 @@ export function useRemoveSessionMutation(baseOptions?: Apollo.MutationHookOption
 export type RemoveSessionMutationHookResult = ReturnType<typeof useRemoveSessionMutation>;
 export type RemoveSessionMutationResult = Apollo.MutationResult<RemoveSessionMutation>;
 export type RemoveSessionMutationOptions = Apollo.BaseMutationOptions<RemoveSessionMutation, RemoveSessionMutationVariables>;
+export const CreateDmsuProcessDocument = gql`
+    mutation CreateDmsuProcess($personInfoFile: Upload!, $isAi: Boolean) {
+  createDmsuProcess(personInfoFile: $personInfoFile, isAi: $isAi)
+}
+    `;
+export type CreateDmsuProcessMutationFn = Apollo.MutationFunction<CreateDmsuProcessMutation, CreateDmsuProcessMutationVariables>;
+
+/**
+ * __useCreateDmsuProcessMutation__
+ *
+ * To run a mutation, you first call `useCreateDmsuProcessMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateDmsuProcessMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createDmsuProcessMutation, { data, loading, error }] = useCreateDmsuProcessMutation({
+ *   variables: {
+ *      personInfoFile: // value for 'personInfoFile'
+ *      isAi: // value for 'isAi'
+ *   },
+ * });
+ */
+export function useCreateDmsuProcessMutation(baseOptions?: Apollo.MutationHookOptions<CreateDmsuProcessMutation, CreateDmsuProcessMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateDmsuProcessMutation, CreateDmsuProcessMutationVariables>(CreateDmsuProcessDocument, options);
+      }
+export type CreateDmsuProcessMutationHookResult = ReturnType<typeof useCreateDmsuProcessMutation>;
+export type CreateDmsuProcessMutationResult = Apollo.MutationResult<CreateDmsuProcessMutation>;
+export type CreateDmsuProcessMutationOptions = Apollo.BaseMutationOptions<CreateDmsuProcessMutation, CreateDmsuProcessMutationVariables>;
 export const CreateHstsMvsProcessDocument = gql`
     mutation CreateHstsMvsProcess($driverLicenseFile: Upload, $carInfoFile: Upload!, $isAi: Boolean) {
   createHstsMvsProcess(
@@ -1212,6 +1300,82 @@ export type FindAllProcessQueryHookResult = ReturnType<typeof useFindAllProcessQ
 export type FindAllProcessLazyQueryHookResult = ReturnType<typeof useFindAllProcessLazyQuery>;
 export type FindAllProcessSuspenseQueryHookResult = ReturnType<typeof useFindAllProcessSuspenseQuery>;
 export type FindAllProcessQueryResult = Apollo.QueryResult<FindAllProcessQuery, FindAllProcessQueryVariables>;
+export const FindDmsuByIdDocument = gql`
+    query FindDmsuById($id: String!) {
+  findDmsuById(id: $id) {
+    process {
+      id
+      user {
+        id
+        username
+        displayName
+      }
+      owner
+      type
+      status
+      createdAt
+      finishedAt
+    }
+    personInfoFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    withoutWMFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    resultFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    stage
+    errorMessage
+    isAi
+  }
+}
+    `;
+
+/**
+ * __useFindDmsuByIdQuery__
+ *
+ * To run a query within a React component, call `useFindDmsuByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDmsuByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindDmsuByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindDmsuByIdQuery(baseOptions: Apollo.QueryHookOptions<FindDmsuByIdQuery, FindDmsuByIdQueryVariables> & ({ variables: FindDmsuByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>(FindDmsuByIdDocument, options);
+      }
+export function useFindDmsuByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>(FindDmsuByIdDocument, options);
+        }
+export function useFindDmsuByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>(FindDmsuByIdDocument, options);
+        }
+export type FindDmsuByIdQueryHookResult = ReturnType<typeof useFindDmsuByIdQuery>;
+export type FindDmsuByIdLazyQueryHookResult = ReturnType<typeof useFindDmsuByIdLazyQuery>;
+export type FindDmsuByIdSuspenseQueryHookResult = ReturnType<typeof useFindDmsuByIdSuspenseQuery>;
+export type FindDmsuByIdQueryResult = Apollo.QueryResult<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>;
 export const FindHstsMvsByIdDocument = gql`
     query FindHstsMvsById($id: String!) {
   findHstsMvsById(id: $id) {

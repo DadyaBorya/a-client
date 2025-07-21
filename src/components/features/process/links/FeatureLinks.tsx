@@ -2,11 +2,11 @@
 
 import Link from 'next/link'
 
+import { BorderWrapper } from '@/components/ui/elements/BorderWrapper'
+
 import { useUserStore } from '@/hooks/user'
 
 import { Route } from '@/libs/types/core'
-
-import { BorderWrapper } from '../../../ui/elements/BorderWrapper'
 
 import { checkPermission } from '@/utils'
 

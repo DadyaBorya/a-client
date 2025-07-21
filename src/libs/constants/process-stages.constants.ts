@@ -1,4 +1,4 @@
-import { HstsMvsStage } from '@/graphql/generated/output'
+import { DmsuStage, HstsMvsStage } from '@/graphql/generated/output'
 
 export const HSTS_MVS_STAGES: Record<HstsMvsStage, string> = {
 	[HstsMvsStage.NotStarted]: 'Не розпочато',
@@ -12,4 +12,22 @@ export const HSTS_MVS_STAGES: Record<HstsMvsStage, string> = {
 	[HstsMvsStage.NormalizeRegistrationPlace]: 'Нормалізація місця реєстрації',
 	[HstsMvsStage.GenerateResultData]: 'Генерація результатів',
 	[HstsMvsStage.Finished]: 'Завершено'
+}
+
+export const DMSU_STAGES: Record<DmsuStage, string> = {
+	[DmsuStage.NotStarted]: 'Не розпочато',
+	[DmsuStage.ExtractImageAndRemoveWaterMark]:
+		'Обробка зображення та видалення водяного знаку',
+	[DmsuStage.ParsePersonInfo]: 'Парсинг особистої інформації',
+	[DmsuStage.ValidatePersonInfo]: 'Валідація особистої інформації',
+	[DmsuStage.ModifyData]: 'Модифікація даних',
+	[DmsuStage.NormalizeGenitiveFullname]:
+		'Нормалізація ПІБ у родовому відмінку',
+	[DmsuStage.NormalizeBirthPlace]: 'Нормалізація місця народження',
+	[DmsuStage.NormalizeRegistarionAddress]: 'Нормалізація адреси реєстрації',
+	[DmsuStage.NormalizePassportsIssuer]: 'Нормалізація органу видачі паспорта',
+	[DmsuStage.NormalizeForeignPassportsIssuer]:
+		'Нормалізація органу видачі закордонного паспорта',
+	[DmsuStage.GenerateResultData]: 'Генерація результатних даних',
+	[DmsuStage.Finished]: 'Завершено'
 }

@@ -5,7 +5,7 @@ import {
 	ProcessPagination,
 	ProcessTable,
 	allColumns
-} from '@/components/features/process/process-databale'
+} from '@/components/features/process/process-datatable'
 import { BorderWrapper } from '@/components/ui/elements'
 
 import { Permission, useFindAllProcessQuery } from '@/graphql/generated/output'

@@ -5,11 +5,15 @@ import { ProcessType } from '@/graphql/generated/output'
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL_REST
 
 const urls = {
-	[ProcessType.HstsMvs]: 'process/hsts-mvs/download'
+	[ProcessType.HstsMvs]: 'process/hsts-mvs/download',
+	[ProcessType.Dmsu]: 'process/dmsu/download'
 }
 
-export const downloadFile = async (id: string, type: ProcessType, filename: string) => {
-
+export const downloadFile = async (
+	id: string,
+	type: ProcessType,
+	filename: string
+) => {
 	try {
 		const response = await axios.get(`${baseUrl}/${urls[type]}/${id}`, {
 			withCredentials: true,

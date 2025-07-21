@@ -5,7 +5,8 @@ import { ProcessType } from '@/graphql/generated/output'
 import { ROUTES } from '@/libs/constants'
 
 const routes = {
-	[ProcessType.HstsMvs]: ROUTES.PROCESS.HSTS_MVS.VIEW.build
+	[ProcessType.HstsMvs]: ROUTES.PROCESS.HSTS_MVS.VIEW.build,
+	[ProcessType.Dmsu]: ROUTES.PROCESS.DMSU.VIEW.build
 }
 
 export function ProcessLink({ id, type }: { id: string; type: ProcessType }) {

@@ -87,6 +87,13 @@ export const ROUTES = {
 				build: (id: string) => `/process/hsts-mvs/${id}`
 			},
 			CREATE: { path: '/process/hsts-mvs/create' }
+		},
+		DMSU: {
+			VIEW: {
+				path: '/process/dmsu',
+				build: (id: string) => `/process/dmsu/${id}`
+			},
+			CREATE: { path: '/process/dmsu/create' }
 		}
 	},
 	SEARCH: {

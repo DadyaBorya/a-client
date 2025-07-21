@@ -1,11 +1,16 @@
 import { Metadata } from 'next'
 
-import UpdateProfilePage from '@/components/pages/UpdateProfilePage'
+import { UpdateUserForm } from '@/components/features/account/update'
+import { BorderWrapper } from '@/components/ui/elements'
 
 export const metadata: Metadata = {
 	title: 'Оновлення користувача'
 }
 
 export default function UpdateUser() {
-	return <UpdateProfilePage />
+	return (
+		<BorderWrapper>
+			<UpdateUserForm />
+		</BorderWrapper>
+	)
 }

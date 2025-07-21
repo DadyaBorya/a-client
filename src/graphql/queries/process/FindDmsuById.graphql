@@ -1,0 +1,41 @@
+query FindDmsuById($id: String!) {
+	findDmsuById(id: $id) {
+		process {
+			id
+			user {
+				id
+				username
+				displayName
+			}
+			owner
+			type
+			status
+			createdAt
+			finishedAt
+		}
+		personInfoFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		withoutWMFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		resultFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		stage
+		errorMessage
+		isAi
+	}
+}

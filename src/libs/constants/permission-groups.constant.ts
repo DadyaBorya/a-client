@@ -48,5 +48,13 @@ export const permissionGroups: PermissionGroup[] = [
 				label: 'Створення записів'
 			}
 		}
+	},
+	{
+		groupLabel: 'Обробка файлів ДМСУ',
+		permissions: {
+			[Permission.DmsuCreate]: {
+				label: 'Створення записів'
+			}
+		}
 	}
 ]
