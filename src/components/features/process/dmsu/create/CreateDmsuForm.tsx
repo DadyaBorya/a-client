@@ -13,7 +13,7 @@ export function CreateDmsuForm() {
 	return (
 		<FormWrapper
 			title='Створення запису'
-			description='Завантажте файли ГСЦ МВС для обробки'
+			description='Завантажте файл ДМСУ для обробки'
 		>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)}>
