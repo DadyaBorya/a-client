@@ -1,13 +1,11 @@
 import { GeistSans } from 'geist/font/sans'
-import type { Metadata } from 'next'
-
-import '@/libs/styles/globals.css'
 
 import {
 	ApolloClientProvider,
 	ThemeProvider,
 	ToasterProvider
 } from '@/providers'
+import '@/shared/styles/globals.css'
 
 export const metadata = {
 	title: {

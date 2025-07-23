@@ -1,18 +1,24 @@
 'use client'
 
-import { UserProfile } from '@/components/features/account/profile'
-import { BorderWrapper } from '@/components/ui/elements'
-
 import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { AccountProfile } from '@/features/account/components'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function AccountProfilePage() {
-	return (
-		<BorderWrapper>
-			<UserProfile />
-		</BorderWrapper>
-	)
+const AuthenticatedAccountProfile = withAuth(
+	function AccountProfileContent() {
+		return (
+			<BorderLayout>
+				<AccountProfile />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.UserRead]
+	}
+)
+
+export default function AccountProfilePage() {
+	return <AuthenticatedAccountProfile />
 }
-
-export default withAuth(AccountProfilePage, [Permission.UserRead])

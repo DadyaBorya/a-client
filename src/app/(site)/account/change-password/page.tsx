@@ -1,16 +1,24 @@
 'use client'
 
-import { ChangeUserPasswordForm } from '@/components/features/account/change-password'
-import { BorderWrapper } from '@/components/ui/elements'
+import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { ChangePasswordForm } from '@/features/account'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function ChangePasswordPage() {
-	return (
-		<BorderWrapper>
-			<ChangeUserPasswordForm />
-		</BorderWrapper>
-	)
+const AuthenticatedChangePasswordForm = withAuth(
+	function ChangePasswordContent() {
+		return (
+			<BorderLayout>
+				<ChangePasswordForm />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.UserUpdate]
+	}
+)
+
+export default function ChangePasswordPage() {
+	return <AuthenticatedChangePasswordForm />
 }
-
-export default withAuth(ChangePasswordPage, [])

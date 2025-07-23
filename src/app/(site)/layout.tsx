@@ -1,6 +1,5 @@
-import { Header } from '@/components/features/header'
-import { Sidebar } from '@/components/features/sidebar'
-import { LayoutContainer } from '@/components/layouts'
+import { Header, LayoutContainer } from '@/shared/components/layouts'
+import { Sidebar } from '@/shared/components/layouts'
 
 export default function SiteLayout({
 	children

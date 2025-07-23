@@ -1,9 +1,11 @@
 'use client'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { withAuth } from '@/features/shared/hocs'
 
-function Home() {
-	return <div>HomePage</div>
+const AuthenticatedHome = withAuth(function HomeContent() {
+	return <div></div>
+})
+
+export default function HomePage() {
+	return <AuthenticatedHome />
 }
-
-export default withAuth(Home, [])

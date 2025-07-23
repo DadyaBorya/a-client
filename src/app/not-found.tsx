@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
-import { Button } from '@/components/ui/common'
+import { Button } from '@/shared/components/ui'
 
 export default function NotFound() {
 	const router = useRouter()

@@ -1,18 +1,24 @@
 'use client'
 
-import { CreateUserForm } from '@/components/features/account/create'
-import { BorderWrapper } from '@/components/ui/elements'
-
 import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { CreateProfileForm } from '@/features/account'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function CreateUserPage() {
-	return (
-		<BorderWrapper>
-			<CreateUserForm />
-		</BorderWrapper>
-	)
+const AuthenticatedCreateProfileForm = withAuth(
+	function CreateUserContent() {
+		return (
+			<BorderLayout>
+				<CreateProfileForm />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.UserCreate]
+	}
+)
+
+export default function CreateUserPage() {
+	return <AuthenticatedCreateProfileForm />
 }
-
-export default withAuth(CreateUserPage, [Permission.UserCreate])

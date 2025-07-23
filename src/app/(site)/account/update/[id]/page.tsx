@@ -1,16 +1,24 @@
-import { Metadata } from 'next'
+'use client'
 
-import { UpdateUserForm } from '@/components/features/account/update'
-import { BorderWrapper } from '@/components/ui/elements'
+import { Permission } from '@/graphql/generated/output'
 
-export const metadata: Metadata = {
-	title: 'Оновлення користувача'
-}
+import { UpdateProfileForm } from '@/features/account'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-export default function UpdateUser() {
-	return (
-		<BorderWrapper>
-			<UpdateUserForm />
-		</BorderWrapper>
-	)
+const AuthenticatedUpdateProfileForm = withAuth(
+	function UpdateUserContent() {
+		return (
+			<BorderLayout>
+				<UpdateProfileForm />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.UserRead, Permission.UserUpdate]
+	}
+)
+
+export default function UpdateUserPage() {
+	return <AuthenticatedUpdateProfileForm />
 }

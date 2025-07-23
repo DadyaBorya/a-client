@@ -1,18 +1,24 @@
 'use client'
 
-import { CreateHstsMvsForm } from '@/components/features/process/hsts-mvs/create'
-import { BorderWrapper } from '@/components/ui/elements'
-
 import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { CreateHstsMvsProcessForm } from '@/features/process'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function CreateHstsMvsFormPage() {
-	return (
-		<BorderWrapper>
-			<CreateHstsMvsForm />
-		</BorderWrapper>
-	)
+const AuthenticatedCreateHstsMvsForm = withAuth(
+	function CreateHstsMvsFormContent() {
+		return (
+			<BorderLayout>
+				<CreateHstsMvsProcessForm />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.HstsMvsCreate]
+	}
+)
+
+export default function CreateHstsMvsFormPage() {
+	return <AuthenticatedCreateHstsMvsForm />
 }
-
-export default withAuth(CreateHstsMvsFormPage, [Permission.HstsMvsCreate])

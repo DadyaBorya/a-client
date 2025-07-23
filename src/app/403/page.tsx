@@ -1,10 +1,8 @@
 'use client'
 
+import { Button } from '@/shared/components/ui'
+import { ROUTES } from '@/shared/constants'
 import { useRouter } from 'next/navigation'
-
-import { Button } from '@/components/ui/common'
-
-import { ROUTES } from '@/libs/constants'
 
 export default function ForbiddenPage() {
 	const router = useRouter()

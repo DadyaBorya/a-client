@@ -461,6 +461,11 @@ export type FindCurrentSessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindCurrentSessionQuery = { __typename?: 'Query', findCurrentSession: { __typename?: 'SessionModel', id: string, userId: string, createdAt: string, metadata: { __typename?: 'SessionMetadaModel', ip: string, location: { __typename?: 'LocationModel', city: string, country: string, latidute: number, longitude: number }, device: { __typename?: 'DeviceModel', os?: string | null, browser?: string | null, type?: string | null } } } };
 
+export type FindSessionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindSessionsQuery = { __typename?: 'Query', findSessions: Array<{ __typename?: 'SessionModel', id: string, userId: string, createdAt: string, metadata: { __typename?: 'SessionMetadaModel', ip: string, location: { __typename?: 'LocationModel', city: string, country: string, latidute: number, longitude: number }, device: { __typename?: 'DeviceModel', os?: string | null, browser?: string | null, type?: string | null } } }> };
+
 export type FindSessionsByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
@@ -1061,6 +1066,61 @@ export type FindCurrentSessionQueryHookResult = ReturnType<typeof useFindCurrent
 export type FindCurrentSessionLazyQueryHookResult = ReturnType<typeof useFindCurrentSessionLazyQuery>;
 export type FindCurrentSessionSuspenseQueryHookResult = ReturnType<typeof useFindCurrentSessionSuspenseQuery>;
 export type FindCurrentSessionQueryResult = Apollo.QueryResult<FindCurrentSessionQuery, FindCurrentSessionQueryVariables>;
+export const FindSessionsDocument = gql`
+    query FindSessions {
+  findSessions {
+    id
+    userId
+    createdAt
+    metadata {
+      location {
+        city
+        country
+        latidute
+        longitude
+      }
+      device {
+        os
+        browser
+        type
+      }
+      ip
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindSessionsQuery__
+ *
+ * To run a query within a React component, call `useFindSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindSessionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindSessionsQuery(baseOptions?: Apollo.QueryHookOptions<FindSessionsQuery, FindSessionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindSessionsQuery, FindSessionsQueryVariables>(FindSessionsDocument, options);
+      }
+export function useFindSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindSessionsQuery, FindSessionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindSessionsQuery, FindSessionsQueryVariables>(FindSessionsDocument, options);
+        }
+export function useFindSessionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindSessionsQuery, FindSessionsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindSessionsQuery, FindSessionsQueryVariables>(FindSessionsDocument, options);
+        }
+export type FindSessionsQueryHookResult = ReturnType<typeof useFindSessionsQuery>;
+export type FindSessionsLazyQueryHookResult = ReturnType<typeof useFindSessionsLazyQuery>;
+export type FindSessionsSuspenseQueryHookResult = ReturnType<typeof useFindSessionsSuspenseQuery>;
+export type FindSessionsQueryResult = Apollo.QueryResult<FindSessionsQuery, FindSessionsQueryVariables>;
 export const FindSessionsByIdDocument = gql`
     query FindSessionsById($id: String!) {
   findSessionsById(id: $id) {

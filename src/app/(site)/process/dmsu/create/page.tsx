@@ -1,18 +1,24 @@
 'use client'
 
-import { CreateDmsuForm } from '@/components/features/process/dmsu/create'
-import { BorderWrapper } from '@/components/ui/elements'
-
 import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { CreateDmsuProcessForm } from '@/features/process'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function CreateDmsuFormPage() {
-	return (
-		<BorderWrapper>
-			<CreateDmsuForm />
-		</BorderWrapper>
-	)
+const AuthenticatedCreateDmsuForm = withAuth(
+	function CreateDmsuFormContent() {
+		return (
+			<BorderLayout>
+				<CreateDmsuProcessForm />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.DmsuCreate]
+	}
+)
+
+export default function CreateDmsuFormPage() {
+	return <AuthenticatedCreateDmsuForm />
 }
-
-export default withAuth(CreateDmsuFormPage, [Permission.DmsuCreate])

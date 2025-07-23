@@ -1,16 +1,19 @@
 'use client'
 
-import { OwnUserProfile } from '@/components/features/account/profile'
-import { BorderWrapper } from '@/components/ui/elements'
+import { OwnAccountProfile } from '@/features/account'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-import withAuth from '@/hooks/auth/withAuth'
+const AuthenticatedOwnAccountProfile = withAuth(
+	function OwnAccountProfileContent() {
+		return (
+			<BorderLayout>
+				<OwnAccountProfile />
+			</BorderLayout>
+		)
+	}
+)
 
-function OwnAccountProfilePage() {
-	return (
-		<BorderWrapper>
-			<OwnUserProfile />
-		</BorderWrapper>
-	)
+export default function OwnAccountProfilePage() {
+	return <AuthenticatedOwnAccountProfile />
 }
-
-export default withAuth(OwnAccountProfilePage, [])

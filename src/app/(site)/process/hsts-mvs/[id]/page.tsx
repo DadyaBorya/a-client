@@ -1,11 +1,12 @@
 'use client'
 
-import { HstsMvsProfile } from '@/components/features/process/hsts-mvs/profile'
+import { HstsMvsProcessView } from '@/features/process'
+import { withAuth } from '@/features/shared/hocs'
 
-import withAuth from '@/hooks/auth/withAuth'
+const AuthenticatedHstsMvsProfile = withAuth(function HstsMvsProfileContent() {
+	return <HstsMvsProcessView />
+})
 
-function HstsMvsProfilePage() {
-	return <HstsMvsProfile />
+export default function HstsMvsProfilePage() {
+	return <AuthenticatedHstsMvsProfile />
 }
-
-export default withAuth(HstsMvsProfilePage, [])

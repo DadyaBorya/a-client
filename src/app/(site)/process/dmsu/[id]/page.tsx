@@ -1,11 +1,15 @@
 'use client'
 
-import { DmsuProfile } from '@/components/features/process/dmsu/profile'
+import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { DmsuProcessView } from '@/features/process'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function HstsMvsProfilePage() {
-	return <DmsuProfile />
+const AuthenticatedDmsuProfile = withAuth(function DmsuProfileContent() {
+	return <DmsuProcessView />
+})
+
+export default function DmsuProfilePage() {
+	return <AuthenticatedDmsuProfile />
 }
-
-export default withAuth(HstsMvsProfilePage, [])

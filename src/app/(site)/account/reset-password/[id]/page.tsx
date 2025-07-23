@@ -1,18 +1,24 @@
 'use client'
 
-import { ResetUserPasswordForm } from '@/components/features/account/reset-password'
-import { BorderWrapper } from '@/components/ui/elements'
-
 import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { ResetPasswordForm } from '@/features/account'
+import { withAuth } from '@/features/shared/hocs'
+import { BorderLayout } from '@/shared/components/layouts'
 
-function ResetPasswordPage() {
-	return (
-		<BorderWrapper>
-			<ResetUserPasswordForm />
-		</BorderWrapper>
-	)
+const AuthenticatedResetPasswordForm = withAuth(
+	function ResetPasswordContent() {
+		return (
+			<BorderLayout>
+				<ResetPasswordForm />
+			</BorderLayout>
+		)
+	},
+	{
+		requiredPermissions: [Permission.UserResetPassword]
+	}
+)
+
+export default function ResetPasswordPage() {
+	return <AuthenticatedResetPasswordForm />
 }
-
-export default withAuth(ResetPasswordPage, [Permission.UserResetPassword])

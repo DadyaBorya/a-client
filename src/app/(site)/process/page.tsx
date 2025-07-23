@@ -1,23 +1,24 @@
 'use client'
 
-import { FeatureLinks } from '@/components/features/process/links'
+import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { AvailableProcesses } from '@/features/process'
+import { withAuth } from '@/features/shared/hocs'
 
-import { PROCESS_PERMISSIONS, PROCESS_ROUTES } from '@/libs/constants'
+const AuthenticatedProcessPage = withAuth(
+	function ProcessContent() {
+		return <AvailableProcesses />
+	},
+	{
+		requiredPermissions: [
+			Permission.ProcessReadAll,
+			Permission.ProcessReadOwn,
+			Permission.HstsMvsCreate
+		],
+		includeAll: false
+	}
+)
 
-function ProcessPage() {
-	return (
-		<div className='flex flex-col gap-y-4'>
-			{PROCESS_ROUTES.map(item => (
-				<FeatureLinks
-					key={item.title}
-					title={item.title}
-					links={item.items}
-				/>
-			))}
-		</div>
-	)
+export default function ProcessPage() {
+	return <AuthenticatedProcessPage />
 }
-
-export default withAuth(ProcessPage, PROCESS_PERMISSIONS, false)

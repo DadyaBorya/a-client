@@ -1,30 +1,19 @@
 'use client'
 
-import {
-	AccountActions,
-	AccountFilter,
-	AccountPagination,
-	AccountTable
-} from '@/components/features/account/account-datatable'
-import { BorderWrapper } from '@/components/ui/elements'
-
 import { Permission } from '@/graphql/generated/output'
 
-import withAuth from '@/hooks/auth/withAuth'
+import { AccountDataTable } from '@/features/account'
+import { withAuth } from '@/features/shared/hocs'
 
-function AccountListPage() {
-	return (
-		<>
-			<div className='mb-3 flex w-full gap-2'>
-				<AccountFilter />
-				<AccountActions />
-			</div>
-			<BorderWrapper>
-				<AccountTable />
-			</BorderWrapper>
-			<AccountPagination />
-		</>
-	)
+const AuthenticatedAccountList = withAuth(
+	function AccountListContent() {
+		return <AccountDataTable />
+	},
+	{
+		requiredPermissions: [Permission.UserRead]
+	}
+)
+
+export default function AccountListPage() {
+	return <AuthenticatedAccountList />
 }
-
-export default withAuth(AccountListPage, [Permission.UserRead])

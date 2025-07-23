@@ -1,5 +1,0 @@
-export * from './change-user-password.schema'
-export * from './create-user.schema'
-export * from './update-user.schema'
-export * from './reset-user-password.schema'
-export * from './accounts-filter.schema'
