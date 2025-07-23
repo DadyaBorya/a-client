@@ -1,12 +1,10 @@
 import { useEffect } from 'react'
 
-import { useFindAllAccounts } from '../../hooks'
-import { useAccountListStore } from '../../stores'
-
 import { AccountActions } from './AccountActions'
 import { AccountFilter } from './AccountFilter'
 import { AccountPagination } from './AccountPagination'
 import { AccountTable } from './AccountTable'
+import { useAccountListStore, useFindAllAccounts } from '@/features/account'
 import { BorderLayout } from '@/shared/components/layouts'
 
 export function AccountDataTable() {
