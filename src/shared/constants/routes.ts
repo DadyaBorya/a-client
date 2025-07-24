@@ -94,6 +94,13 @@ export const ROUTES = {
 				build: (id: string) => `/process/dmsu/${id}`
 			},
 			CREATE: { path: '/process/dmsu/create' }
+		},
+		PFU: {
+			VIEW: {
+				path: '/process/pfu',
+				build: (id: string) => `/process/pfu/${id}`
+			},
+			CREATE: { path: '/process/pfu/create' }
 		}
 	},
 	SEARCH: {

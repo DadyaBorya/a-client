@@ -6,7 +6,8 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL_REST
 
 const downloadUrls: Record<ProcessType, string> = {
 	[ProcessType.HstsMvs]: 'process/hsts-mvs/download',
-	[ProcessType.Dmsu]: 'process/dmsu/download'
+	[ProcessType.Dmsu]: 'process/dmsu/download',
+	[ProcessType.Pfu]: 'process/pfu/download'
 }
 
 export class FileDownloadService {

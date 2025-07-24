@@ -1,0 +1,3 @@
+mutation CreatePfuProcess($inputFile: Upload!, $isAi: Boolean) {
+	createPfuProcess(inputFile: $inputFile, isAi: $isAi)
+}

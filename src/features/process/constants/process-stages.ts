@@ -1,6 +1,7 @@
 import {
 	DmsuStage,
 	HstsMvsStage,
+	PfuStage,
 	ProcessType
 } from '@/graphql/generated/output'
 
@@ -36,7 +37,19 @@ export const DMSU_STAGES: Record<DmsuStage, string> = {
 	[DmsuStage.Finished]: 'Завершено'
 }
 
+export const PFU_STAGES: Record<PfuStage, string> = {
+	[PfuStage.NotStarted]: 'Не розпочато',
+	[PfuStage.ParseInputFile]: 'Парсинг вхідного файлу',
+	[PfuStage.ValidateInputFile]: 'Валідація вхідного файлу',
+	[PfuStage.TransformInputFile]: 'Трансформація вхідного файлу',
+	[PfuStage.ModifyData]: 'Модифікація даних',
+	[PfuStage.NormalizeInsureName]: 'Нормалізація назв страхувальників',
+	[PfuStage.GenerateResultData]: 'Генерація результатних даних',
+	[PfuStage.Finished]: 'Завершено'
+}
+
 export const PROCESS_STAGES: Record<ProcessType, Record<string, string>> = {
 	[ProcessType.HstsMvs]: HSTS_MVS_STAGES,
-	[ProcessType.Dmsu]: DMSU_STAGES
+	[ProcessType.Dmsu]: DMSU_STAGES,
+	[ProcessType.Pfu]: PFU_STAGES
 }

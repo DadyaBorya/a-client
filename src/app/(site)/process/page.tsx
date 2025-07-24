@@ -13,7 +13,9 @@ const AuthenticatedProcessPage = withAuth(
 		requiredPermissions: [
 			Permission.ProcessReadAll,
 			Permission.ProcessReadOwn,
-			Permission.HstsMvsCreate
+			Permission.HstsMvsCreate,
+			Permission.DmsuCreate,
+			Permission.PfuCreate
 		],
 		includeAll: false
 	}

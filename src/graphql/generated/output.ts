@@ -125,6 +125,7 @@ export type Mutation = {
   clearSessionCookie: Scalars['Boolean']['output'];
   createDmsuProcess: Scalars['String']['output'];
   createHstsMvsProcess: Scalars['String']['output'];
+  createPfuProcess: Scalars['String']['output'];
   createUser: Scalars['Boolean']['output'];
   disabledTotp: Scalars['Boolean']['output'];
   enableTotp: Scalars['Boolean']['output'];
@@ -146,6 +147,12 @@ export type MutationCreateDmsuProcessArgs = {
 export type MutationCreateHstsMvsProcessArgs = {
   carInfoFile: Scalars['Upload']['input'];
   driverLicenseFile?: InputMaybe<Scalars['Upload']['input']>;
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+
+export type MutationCreatePfuProcessArgs = {
+  inputFile: Scalars['Upload']['input'];
   isAi?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -197,6 +204,7 @@ export enum OrderDirection {
 export enum Permission {
   DmsuCreate = 'DMSU_CREATE',
   HstsMvsCreate = 'HSTS_MVS_CREATE',
+  PfuCreate = 'PFU_CREATE',
   ProcessReadAll = 'PROCESS_READ_ALL',
   ProcessReadOwn = 'PROCESS_READ_OWN',
   UserCreate = 'USER_CREATE',
@@ -204,6 +212,27 @@ export enum Permission {
   UserRead = 'USER_READ',
   UserResetPassword = 'USER_RESET_PASSWORD',
   UserUpdate = 'USER_UPDATE'
+}
+
+export type PfuProcessModel = {
+  __typename?: 'PfuProcessModel';
+  errorMessage?: Maybe<Scalars['String']['output']>;
+  inputFile: StorageModel;
+  isAi: Scalars['Boolean']['output'];
+  process: ProcessModel;
+  resultFile?: Maybe<StorageModel>;
+  stage: PfuStage;
+};
+
+export enum PfuStage {
+  Finished = 'FINISHED',
+  GenerateResultData = 'GENERATE_RESULT_DATA',
+  ModifyData = 'MODIFY_DATA',
+  NormalizeInsureName = 'NORMALIZE_INSURE_NAME',
+  NotStarted = 'NOT_STARTED',
+  ParseInputFile = 'PARSE_INPUT_FILE',
+  TransformInputFile = 'TRANSFORM_INPUT_FILE',
+  ValidateInputFile = 'VALIDATE_INPUT_FILE'
 }
 
 export type ProcessListModel = {
@@ -229,7 +258,8 @@ export type ProcessModel = {
 
 export enum ProcessType {
   Dmsu = 'DMSU',
-  HstsMvs = 'HSTS_MVS'
+  HstsMvs = 'HSTS_MVS',
+  Pfu = 'PFU'
 }
 
 export type Query = {
@@ -241,6 +271,7 @@ export type Query = {
   findDmsuById: DmsuProcessModel;
   findHstsMvsById: HstsMvsProcessModel;
   findMe: UserModel;
+  findPfuById: PfuProcessModel;
   findSessions: Array<SessionModel>;
   findSessionsById: Array<SessionModel>;
   findUserById: UserModel;
@@ -269,6 +300,11 @@ export type QueryFindDmsuByIdArgs = {
 
 
 export type QueryFindHstsMvsByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindPfuByIdArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -430,6 +466,14 @@ export type CreateHstsMvsProcessMutationVariables = Exact<{
 
 export type CreateHstsMvsProcessMutation = { __typename?: 'Mutation', createHstsMvsProcess: string };
 
+export type CreatePfuProcessMutationVariables = Exact<{
+  inputFile: Scalars['Upload']['input'];
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type CreatePfuProcessMutation = { __typename?: 'Mutation', createPfuProcess: string };
+
 export type EnableTotpMutationVariables = Exact<{
   data: EnableTotpInput;
 }>;
@@ -505,6 +549,13 @@ export type FindHstsMvsByIdQueryVariables = Exact<{
 
 
 export type FindHstsMvsByIdQuery = { __typename?: 'Query', findHstsMvsById: { __typename?: 'HstsMvsProcessModel', stage: HstsMvsStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, driverLicenseFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null, carInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
+
+export type FindPfuByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindPfuByIdQuery = { __typename?: 'Query', findPfuById: { __typename?: 'PfuProcessModel', stage: PfuStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, inputFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
 
 export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -827,6 +878,38 @@ export function useCreateHstsMvsProcessMutation(baseOptions?: Apollo.MutationHoo
 export type CreateHstsMvsProcessMutationHookResult = ReturnType<typeof useCreateHstsMvsProcessMutation>;
 export type CreateHstsMvsProcessMutationResult = Apollo.MutationResult<CreateHstsMvsProcessMutation>;
 export type CreateHstsMvsProcessMutationOptions = Apollo.BaseMutationOptions<CreateHstsMvsProcessMutation, CreateHstsMvsProcessMutationVariables>;
+export const CreatePfuProcessDocument = gql`
+    mutation CreatePfuProcess($inputFile: Upload!, $isAi: Boolean) {
+  createPfuProcess(inputFile: $inputFile, isAi: $isAi)
+}
+    `;
+export type CreatePfuProcessMutationFn = Apollo.MutationFunction<CreatePfuProcessMutation, CreatePfuProcessMutationVariables>;
+
+/**
+ * __useCreatePfuProcessMutation__
+ *
+ * To run a mutation, you first call `useCreatePfuProcessMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePfuProcessMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPfuProcessMutation, { data, loading, error }] = useCreatePfuProcessMutation({
+ *   variables: {
+ *      inputFile: // value for 'inputFile'
+ *      isAi: // value for 'isAi'
+ *   },
+ * });
+ */
+export function useCreatePfuProcessMutation(baseOptions?: Apollo.MutationHookOptions<CreatePfuProcessMutation, CreatePfuProcessMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePfuProcessMutation, CreatePfuProcessMutationVariables>(CreatePfuProcessDocument, options);
+      }
+export type CreatePfuProcessMutationHookResult = ReturnType<typeof useCreatePfuProcessMutation>;
+export type CreatePfuProcessMutationResult = Apollo.MutationResult<CreatePfuProcessMutation>;
+export type CreatePfuProcessMutationOptions = Apollo.BaseMutationOptions<CreatePfuProcessMutation, CreatePfuProcessMutationVariables>;
 export const EnableTotpDocument = gql`
     mutation EnableTotp($data: EnableTotpInput!) {
   enableTotp(data: $data)
@@ -1512,6 +1595,75 @@ export type FindHstsMvsByIdQueryHookResult = ReturnType<typeof useFindHstsMvsByI
 export type FindHstsMvsByIdLazyQueryHookResult = ReturnType<typeof useFindHstsMvsByIdLazyQuery>;
 export type FindHstsMvsByIdSuspenseQueryHookResult = ReturnType<typeof useFindHstsMvsByIdSuspenseQuery>;
 export type FindHstsMvsByIdQueryResult = Apollo.QueryResult<FindHstsMvsByIdQuery, FindHstsMvsByIdQueryVariables>;
+export const FindPfuByIdDocument = gql`
+    query FindPfuById($id: String!) {
+  findPfuById(id: $id) {
+    process {
+      id
+      user {
+        id
+        username
+        displayName
+      }
+      owner
+      type
+      status
+      createdAt
+      finishedAt
+    }
+    inputFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    resultFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    stage
+    errorMessage
+    isAi
+  }
+}
+    `;
+
+/**
+ * __useFindPfuByIdQuery__
+ *
+ * To run a query within a React component, call `useFindPfuByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindPfuByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindPfuByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindPfuByIdQuery(baseOptions: Apollo.QueryHookOptions<FindPfuByIdQuery, FindPfuByIdQueryVariables> & ({ variables: FindPfuByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindPfuByIdQuery, FindPfuByIdQueryVariables>(FindPfuByIdDocument, options);
+      }
+export function useFindPfuByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPfuByIdQuery, FindPfuByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindPfuByIdQuery, FindPfuByIdQueryVariables>(FindPfuByIdDocument, options);
+        }
+export function useFindPfuByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindPfuByIdQuery, FindPfuByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindPfuByIdQuery, FindPfuByIdQueryVariables>(FindPfuByIdDocument, options);
+        }
+export type FindPfuByIdQueryHookResult = ReturnType<typeof useFindPfuByIdQuery>;
+export type FindPfuByIdLazyQueryHookResult = ReturnType<typeof useFindPfuByIdLazyQuery>;
+export type FindPfuByIdSuspenseQueryHookResult = ReturnType<typeof useFindPfuByIdSuspenseQuery>;
+export type FindPfuByIdQueryResult = Apollo.QueryResult<FindPfuByIdQuery, FindPfuByIdQueryVariables>;
 export const GenerateTotpSecretDocument = gql`
     query GenerateTotpSecret {
   generateTotpSecret {

@@ -44,5 +44,16 @@ export const PROCESS_ROUTES: { title: string; items: Route[] }[] = [
 				permissions: [Permission.DmsuCreate]
 			}
 		]
+	},
+	{
+		title: 'Обробка файлів ПФУ',
+		items: [
+			{
+				label: 'Створення записів',
+				href: ROUTES.PROCESS.PFU.CREATE.path,
+				icon: FilePlus,
+				permissions: [Permission.PfuCreate]
+			}
+		]
 	}
 ]
