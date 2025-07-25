@@ -1,0 +1,11 @@
+mutation CreateErdProcess(
+	$grantedInputFile: Upload
+	$acceptedInputFile: Upload
+	$isAi: Boolean
+) {
+	createErdProcess(
+		grantedInputFile: $grantedInputFile
+		acceptedInputFile: $acceptedInputFile
+		isAi: $isAi
+	)
+}

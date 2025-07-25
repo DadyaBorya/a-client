@@ -1,5 +1,6 @@
 import {
 	DmsuStage,
+	ErdStage,
 	HstsMvsStage,
 	PfuStage,
 	ProcessType
@@ -48,8 +49,14 @@ export const PFU_STAGES: Record<PfuStage, string> = {
 	[PfuStage.Finished]: 'Завершено'
 }
 
+export const ERD_STAGES: Record<ErdStage, string> = {
+	[PfuStage.NotStarted]: 'Не розпочато',
+	[PfuStage.Finished]: 'Завершено'
+}
+
 export const PROCESS_STAGES: Record<ProcessType, Record<string, string>> = {
 	[ProcessType.HstsMvs]: HSTS_MVS_STAGES,
 	[ProcessType.Dmsu]: DMSU_STAGES,
-	[ProcessType.Pfu]: PFU_STAGES
+	[ProcessType.Pfu]: PFU_STAGES,
+	[ProcessType.Erd]: ERD_STAGES
 }

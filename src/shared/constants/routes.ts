@@ -101,6 +101,13 @@ export const ROUTES = {
 				build: (id: string) => `/process/pfu/${id}`
 			},
 			CREATE: { path: '/process/pfu/create' }
+		},
+		ERD: {
+			VIEW: {
+				path: '/process/erd',
+				build: (id: string) => `/process/erd/${id}`
+			},
+			CREATE: { path: '/process/erd/create' }
 		}
 	},
 	SEARCH: {

@@ -1,0 +1,41 @@
+query FindErdById($id: String!) {
+	findErdById(id: $id) {
+		process {
+			id
+			user {
+				id
+				username
+				displayName
+			}
+			owner
+			type
+			status
+			createdAt
+			finishedAt
+		}
+		acceptedInputFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		grantedInputFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		resultFile {
+			id
+			inputFilename
+			outputFilename
+			extension
+			size
+		}
+		stage
+		errorMessage
+		isAi
+	}
+}

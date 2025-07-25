@@ -66,6 +66,22 @@ export type EnableTotpInput = {
   secret: Scalars['String']['input'];
 };
 
+export type ErdProcessModel = {
+  __typename?: 'ErdProcessModel';
+  acceptedInputFile?: Maybe<StorageModel>;
+  errorMessage?: Maybe<Scalars['String']['output']>;
+  grantedInputFile?: Maybe<StorageModel>;
+  isAi: Scalars['Boolean']['output'];
+  process: ProcessModel;
+  resultFile?: Maybe<StorageModel>;
+  stage: ErdStage;
+};
+
+export enum ErdStage {
+  Finished = 'FINISHED',
+  NotStarted = 'NOT_STARTED'
+}
+
 export type HstsMvsProcessModel = {
   __typename?: 'HstsMvsProcessModel';
   carInfoFile: StorageModel;
@@ -124,6 +140,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   clearSessionCookie: Scalars['Boolean']['output'];
   createDmsuProcess: Scalars['String']['output'];
+  createErdProcess: Scalars['String']['output'];
   createHstsMvsProcess: Scalars['String']['output'];
   createPfuProcess: Scalars['String']['output'];
   createUser: Scalars['Boolean']['output'];
@@ -141,6 +158,13 @@ export type Mutation = {
 export type MutationCreateDmsuProcessArgs = {
   isAi?: InputMaybe<Scalars['Boolean']['input']>;
   personInfoFile: Scalars['Upload']['input'];
+};
+
+
+export type MutationCreateErdProcessArgs = {
+  acceptedInputFile?: InputMaybe<Scalars['Upload']['input']>;
+  grantedInputFile?: InputMaybe<Scalars['Upload']['input']>;
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
@@ -203,6 +227,7 @@ export enum OrderDirection {
 
 export enum Permission {
   DmsuCreate = 'DMSU_CREATE',
+  ErdCreate = 'ERD_CREATE',
   HstsMvsCreate = 'HSTS_MVS_CREATE',
   PfuCreate = 'PFU_CREATE',
   ProcessReadAll = 'PROCESS_READ_ALL',
@@ -258,6 +283,7 @@ export type ProcessModel = {
 
 export enum ProcessType {
   Dmsu = 'DMSU',
+  Erd = 'ERD',
   HstsMvs = 'HSTS_MVS',
   Pfu = 'PFU'
 }
@@ -269,6 +295,7 @@ export type Query = {
   findAllUsers: UserListModel;
   findCurrentSession: SessionModel;
   findDmsuById: DmsuProcessModel;
+  findErdById: ErdProcessModel;
   findHstsMvsById: HstsMvsProcessModel;
   findMe: UserModel;
   findPfuById: PfuProcessModel;
@@ -295,6 +322,11 @@ export type QueryFindAllUsersArgs = {
 
 
 export type QueryFindDmsuByIdArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type QueryFindErdByIdArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -457,6 +489,15 @@ export type CreateDmsuProcessMutationVariables = Exact<{
 
 export type CreateDmsuProcessMutation = { __typename?: 'Mutation', createDmsuProcess: string };
 
+export type CreateErdProcessMutationVariables = Exact<{
+  grantedInputFile?: InputMaybe<Scalars['Upload']['input']>;
+  acceptedInputFile?: InputMaybe<Scalars['Upload']['input']>;
+  isAi?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+
+export type CreateErdProcessMutation = { __typename?: 'Mutation', createErdProcess: string };
+
 export type CreateHstsMvsProcessMutationVariables = Exact<{
   driverLicenseFile?: InputMaybe<Scalars['Upload']['input']>;
   carInfoFile: Scalars['Upload']['input'];
@@ -542,6 +583,13 @@ export type FindDmsuByIdQueryVariables = Exact<{
 
 
 export type FindDmsuByIdQuery = { __typename?: 'Query', findDmsuById: { __typename?: 'DmsuProcessModel', stage: DmsuStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, personInfoFile: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number }, withoutWMFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
+
+export type FindErdByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type FindErdByIdQuery = { __typename?: 'Query', findErdById: { __typename?: 'ErdProcessModel', stage: ErdStage, errorMessage?: string | null, isAi: boolean, process: { __typename?: 'ProcessModel', id: string, owner?: string | null, type: ProcessType, status: Status, createdAt: any, finishedAt?: any | null, user: { __typename?: 'UserModel', id: string, username: string, displayName: string } }, acceptedInputFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null, grantedInputFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null, resultFile?: { __typename?: 'StorageModel', id: string, inputFilename: string, outputFilename?: string | null, extension: string, size: number } | null } };
 
 export type FindHstsMvsByIdQueryVariables = Exact<{
   id: Scalars['String']['input'];
@@ -841,6 +889,43 @@ export function useCreateDmsuProcessMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateDmsuProcessMutationHookResult = ReturnType<typeof useCreateDmsuProcessMutation>;
 export type CreateDmsuProcessMutationResult = Apollo.MutationResult<CreateDmsuProcessMutation>;
 export type CreateDmsuProcessMutationOptions = Apollo.BaseMutationOptions<CreateDmsuProcessMutation, CreateDmsuProcessMutationVariables>;
+export const CreateErdProcessDocument = gql`
+    mutation CreateErdProcess($grantedInputFile: Upload, $acceptedInputFile: Upload, $isAi: Boolean) {
+  createErdProcess(
+    grantedInputFile: $grantedInputFile
+    acceptedInputFile: $acceptedInputFile
+    isAi: $isAi
+  )
+}
+    `;
+export type CreateErdProcessMutationFn = Apollo.MutationFunction<CreateErdProcessMutation, CreateErdProcessMutationVariables>;
+
+/**
+ * __useCreateErdProcessMutation__
+ *
+ * To run a mutation, you first call `useCreateErdProcessMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateErdProcessMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createErdProcessMutation, { data, loading, error }] = useCreateErdProcessMutation({
+ *   variables: {
+ *      grantedInputFile: // value for 'grantedInputFile'
+ *      acceptedInputFile: // value for 'acceptedInputFile'
+ *      isAi: // value for 'isAi'
+ *   },
+ * });
+ */
+export function useCreateErdProcessMutation(baseOptions?: Apollo.MutationHookOptions<CreateErdProcessMutation, CreateErdProcessMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateErdProcessMutation, CreateErdProcessMutationVariables>(CreateErdProcessDocument, options);
+      }
+export type CreateErdProcessMutationHookResult = ReturnType<typeof useCreateErdProcessMutation>;
+export type CreateErdProcessMutationResult = Apollo.MutationResult<CreateErdProcessMutation>;
+export type CreateErdProcessMutationOptions = Apollo.BaseMutationOptions<CreateErdProcessMutation, CreateErdProcessMutationVariables>;
 export const CreateHstsMvsProcessDocument = gql`
     mutation CreateHstsMvsProcess($driverLicenseFile: Upload, $carInfoFile: Upload!, $isAi: Boolean) {
   createHstsMvsProcess(
@@ -1519,6 +1604,82 @@ export type FindDmsuByIdQueryHookResult = ReturnType<typeof useFindDmsuByIdQuery
 export type FindDmsuByIdLazyQueryHookResult = ReturnType<typeof useFindDmsuByIdLazyQuery>;
 export type FindDmsuByIdSuspenseQueryHookResult = ReturnType<typeof useFindDmsuByIdSuspenseQuery>;
 export type FindDmsuByIdQueryResult = Apollo.QueryResult<FindDmsuByIdQuery, FindDmsuByIdQueryVariables>;
+export const FindErdByIdDocument = gql`
+    query FindErdById($id: String!) {
+  findErdById(id: $id) {
+    process {
+      id
+      user {
+        id
+        username
+        displayName
+      }
+      owner
+      type
+      status
+      createdAt
+      finishedAt
+    }
+    acceptedInputFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    grantedInputFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    resultFile {
+      id
+      inputFilename
+      outputFilename
+      extension
+      size
+    }
+    stage
+    errorMessage
+    isAi
+  }
+}
+    `;
+
+/**
+ * __useFindErdByIdQuery__
+ *
+ * To run a query within a React component, call `useFindErdByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindErdByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindErdByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFindErdByIdQuery(baseOptions: Apollo.QueryHookOptions<FindErdByIdQuery, FindErdByIdQueryVariables> & ({ variables: FindErdByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindErdByIdQuery, FindErdByIdQueryVariables>(FindErdByIdDocument, options);
+      }
+export function useFindErdByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindErdByIdQuery, FindErdByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindErdByIdQuery, FindErdByIdQueryVariables>(FindErdByIdDocument, options);
+        }
+export function useFindErdByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindErdByIdQuery, FindErdByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindErdByIdQuery, FindErdByIdQueryVariables>(FindErdByIdDocument, options);
+        }
+export type FindErdByIdQueryHookResult = ReturnType<typeof useFindErdByIdQuery>;
+export type FindErdByIdLazyQueryHookResult = ReturnType<typeof useFindErdByIdLazyQuery>;
+export type FindErdByIdSuspenseQueryHookResult = ReturnType<typeof useFindErdByIdSuspenseQuery>;
+export type FindErdByIdQueryResult = Apollo.QueryResult<FindErdByIdQuery, FindErdByIdQueryVariables>;
 export const FindHstsMvsByIdDocument = gql`
     query FindHstsMvsById($id: String!) {
   findHstsMvsById(id: $id) {

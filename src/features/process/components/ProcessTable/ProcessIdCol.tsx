@@ -7,7 +7,8 @@ import { ROUTES } from '@/shared/constants'
 const routes = {
 	[ProcessType.HstsMvs]: ROUTES.PROCESS.HSTS_MVS.VIEW.build,
 	[ProcessType.Dmsu]: ROUTES.PROCESS.DMSU.VIEW.build,
-	[ProcessType.Pfu]: ROUTES.PROCESS.PFU.VIEW.build
+	[ProcessType.Pfu]: ROUTES.PROCESS.PFU.VIEW.build,
+	[ProcessType.Erd]: ROUTES.PROCESS.ERD.VIEW.build
 }
 
 export function ProcessIdCol({ id, type }: { id: string; type: ProcessType }) {

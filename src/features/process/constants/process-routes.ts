@@ -55,5 +55,16 @@ export const PROCESS_ROUTES: { title: string; items: Route[] }[] = [
 				permissions: [Permission.PfuCreate]
 			}
 		]
+	},
+	{
+		title: 'Обробка файлів ЄРД',
+		items: [
+			{
+				label: 'Створення записів',
+				href: ROUTES.PROCESS.ERD.CREATE.path,
+				icon: FilePlus,
+				permissions: [Permission.ErdCreate]
+			}
+		]
 	}
 ]
