@@ -5,9 +5,14 @@ import { Permission } from '@/graphql/generated/output'
 import { ROUTES } from '@/shared/constants'
 import { Route } from '@/shared/types'
 
-export const PROCESS_ROUTES: { title: string; items: Route[] }[] = [
+export const PROCESS_ROUTES: {
+	title: string
+	className?: string
+	items: Route[]
+}[] = [
 	{
 		title: 'Запити на обробку файлів',
+		className: 'col-span-full',
 		items: [
 			{
 				label: 'Перегляд усіх запитів',
