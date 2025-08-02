@@ -8,7 +8,7 @@ interface ProfileSessionsProps {
 }
 
 export function ProfileSessions({ userId, currentId }: ProfileSessionsProps) {
-	const { data, isLoading } = useFindSessions(currentId, userId)
+	const { data, isLoading, refetch } = useFindSessions(currentId, userId)
 
 	if (!data || isLoading) {
 		return <Spinner />
@@ -17,7 +17,7 @@ export function ProfileSessions({ userId, currentId }: ProfileSessionsProps) {
 	return (
 		<>
 			{data.map(i => (
-				<ProfileSessionCard key={i.id} data={i} />
+				<ProfileSessionCard refetch={refetch} key={i.id} data={i} />
 			))}
 		</>
 	)

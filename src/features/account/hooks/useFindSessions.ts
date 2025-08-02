@@ -1,17 +1,20 @@
 import {
-	useFindCurrentSessionQuery,
 	useFindSessionsByIdQuery,
 	useFindSessionsQuery
 } from '@/graphql/generated/output'
 
 export function useFindSessions(currentUserId: string, userId: string) {
 	if (currentUserId === userId) {
-		const { data, loading: isLoading } = useFindSessionsQuery()
-		return { data: data?.findSessions, isLoading }
+		const { data, loading: isLoading, refetch } = useFindSessionsQuery()
+		return { data: data?.findSessions, isLoading, refetch }
 	} else {
-		const { data, loading: isLoading } = useFindSessionsByIdQuery({
+		const {
+			data,
+			loading: isLoading,
+			refetch
+		} = useFindSessionsByIdQuery({
 			variables: { id: userId }
 		})
-		return { data: data?.findSessionsById, isLoading }
+		return { data: data?.findSessionsById, isLoading, refetch }
 	}
 }
